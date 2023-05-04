@@ -5,6 +5,8 @@ import 'package:app_ciudadana/src/pages/perfil/perfil_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -52,6 +54,9 @@ class _MyDrawerState extends State<MyDrawer> {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+              color: Color(0xff59554e),
+            ),
             accountName: Text(_displayName),
             accountEmail: Text(_email),
             currentAccountPicture: const CircleAvatar(
@@ -98,9 +103,13 @@ class _MyDrawerState extends State<MyDrawer> {
             title: const Text('Salir'),
             onTap: () async {
               // Acción a realizar cuando se presiona la opción "Salir"
+              final googleSignIn = GoogleSignIn();
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.setBool('isLoggedIn', false);
               await FirebaseAuth.instance.signOut();
+
+              await googleSignIn.signOut();
+              await FacebookAuth.instance.logOut();
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(

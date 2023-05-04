@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'agendar_evento.dart';
@@ -19,6 +20,7 @@ class AddEvent extends StatefulWidget {
 }
 
 class _AddEventState extends State<AddEvent> {
+  final _auth = FirebaseAuth.instance;
   late DateTime _selectedDate;
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
@@ -83,7 +85,7 @@ class _AddEventState extends State<AddEvent> {
             ),
             onPressed: () {
               _addEvent();
-              Navigator.pop(context);
+              // Navigator.pop(context);
             },
             child: const Text("Guardar"),
           ),
@@ -95,11 +97,17 @@ class _AddEventState extends State<AddEvent> {
   void _addEvent() async {
     final title = _titleController.text;
     final description = _descController.text;
+    final currentUser = _auth.currentUser;
     if (title.isEmpty) {
       print('title cannot be empty');
       return;
     }
-    await FirebaseFirestore.instance.collection('events').add({
+
+    await FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(currentUser!.uid)
+        .collection('events')
+        .add({
       "title": title,
       "description": description,
       "date": Timestamp.fromDate(_selectedDate),

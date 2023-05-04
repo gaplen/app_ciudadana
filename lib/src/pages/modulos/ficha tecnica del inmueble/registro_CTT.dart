@@ -1,10 +1,6 @@
-import 'package:app_ciudadana/src/pages/modulos/comite%20de%20bienestar/comite_bienestar_page.dart';
-import 'package:app_ciudadana/src/pages/modulos/comite%20de%20bienestar/comite_edit_page.dart';
-import 'package:app_ciudadana/src/pages/modulos/escuelas_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class FichaTecnicaRegistro extends StatefulWidget {
   const FichaTecnicaRegistro({super.key});
@@ -33,32 +29,13 @@ class _FichaTecnicaRegistroState extends State<FichaTecnicaRegistro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Registro comite bienestar')),
+      appBar: AppBar(title: const Text('Registro CTT')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              // DropdownButtonFormField<String>(
-              //   value: nivel,
-              //   items: ctt.map((String value) {
-              //     return DropdownMenuItem<String>(
-              //       value: value,
-              //       child: Text(value),
-              //     );
-              //   }).toList(),
-              //   onChanged: (String? value) {
-              //     setState(() {
-              //       nivel = value;
-              //       ctt.remove(value);
-              //     });
-              //   },
-              //   decoration: const InputDecoration(
-              //     hintText: 'Seleccione el nivel escolar',
-              //   ),
-              // ),
-
               DropdownButtonFormField<String>(
                 value: nivel,
                 items: ctt.map((String value) {
@@ -79,15 +56,6 @@ class _FichaTecnicaRegistroState extends State<FichaTecnicaRegistro> {
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
-                  numCTT = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su CTT',
-                ),
-              ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {
                   nombre = value;
                 },
                 decoration: const InputDecoration(
@@ -95,20 +63,28 @@ class _FichaTecnicaRegistroState extends State<FichaTecnicaRegistro> {
                 ),
               ),
               TextField(
+                keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
-                  matricula = value;
+                  numCTT = value;
                 },
                 decoration: const InputDecoration(
-                  hintText: 'Introduzca su matricula',
+                  hintText: 'Introduzca su CTT',
                 ),
               ),
-
               TextField(
                 onChanged: (value) {
                   telefono = value;
                 },
                 decoration: const InputDecoration(
                   hintText: 'Introduzca su telefono',
+                ),
+              ),
+              TextField(
+                onChanged: (value) {
+                  matricula = value;
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Introduzca su Matricula',
                 ),
               ),
               const SizedBox(
@@ -122,21 +98,25 @@ class _FichaTecnicaRegistroState extends State<FichaTecnicaRegistro> {
                       final data = {
                         'nombre': nombre,
                         'telefono': telefono,
-                        'numCTT': numCTT,
                         'nivel': nivel,
+                        'numCTT': numCTT,
                         'matricula': matricula,
                       };
+
                       await _firestore
                           .collection('usuarios')
                           .doc(user.uid)
                           .collection('bienestarCTT')
-                          .add(data);
+                          .doc() // Puedes pasar un ID como argumento si deseas definir uno manualmente
+                          .set(data);
+
+                      // await _firestore
+                      //     .collection('usuarios')
+                      //     .doc(user.uid)
+                      //     .collection('bienestarCTT')
+                      //     .add(data);
                       Navigator.pop(context);
 
-                      // Navigator.of(context).pushReplacement(
-                      //   MaterialPageRoute(
-                      //       builder: (_) => const ComiteBienestarPage()),
-                      // );
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Formulario agregado correctamente'),

@@ -359,7 +359,7 @@
 // }
 
 import 'package:app_ciudadana/src/pages/modulos/ficha%20tecnica%20del%20inmueble/ficha_options_page.dart';
-import 'package:app_ciudadana/src/pages/modulos/ficha%20tecnica%20del%20inmueble/registro_ficha_tecnica.dart';
+import 'package:app_ciudadana/src/pages/modulos/ficha%20tecnica%20del%20inmueble/registro_CTT.dart';
 import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/modulos_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -377,6 +377,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
   final TextEditingController _searchController = TextEditingController();
 
   String _searchText = "";
+  bool _showSearchBar = false;
   @override
   void dispose() {
     _searchController.dispose();
@@ -387,23 +388,54 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: TextField(
-              controller: _searchController,
-              decoration: const InputDecoration(
-                hintText: "Ficha Tecnica",
-                border: InputBorder.none,
-              ),
-              onChanged: (value) {
-                setState(() {
-                  _searchText = value;
-                });
-              },
-            ),
+          backgroundColor: Color(0xff59554e),
+          title: AnimatedSwitcher(
+            duration: Duration(milliseconds: 200),
+            child: _showSearchBar
+                ? TextField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(
+                      hintText: "Buscar...",
+                      border: InputBorder.none,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _searchText = value;
+                      });
+                    },
+                  )
+                : Center(child: Text("Ficha Tecnica del Inmueble")),
           ),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 18.0),
+              child: AnimatedSwitcher(
+                duration: Duration(milliseconds: 200),
+                child: _showSearchBar
+                    ? IconButton(
+                        icon: Icon(Icons.clear),
+                        onPressed: () {
+                          setState(() {
+                            _showSearchBar = false;
+                            _searchText = "";
+                            _searchController.clear();
+                          });
+                        },
+                      )
+                    : IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () {
+                          setState(() {
+                            _showSearchBar = true;
+                          });
+                        },
+                      ),
+              ),
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xff59554e),
           child: const Icon(Icons.add),
           onPressed: () {
             Navigator.of(context).push(
@@ -415,8 +447,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
           child: Column(
             children: [
               Container(
-                color: Colors.red,
-                height: 600,
+                // color: Colors.red,
+                height: 500,
                 child: Container(
                   child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                     stream: _auth.currentUser != null
@@ -424,6 +456,10 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                             .collection('usuarios')
                             .doc(_auth.currentUser!.uid)
                             .collection('bienestarCTT')
+                            .where('nombre',
+                                isGreaterThanOrEqualTo: _searchText)
+                            .where('nombre',
+                                isLessThanOrEqualTo: _searchText + '\uf8ff')
                             .snapshots()
                         : const Stream.empty(),
                     builder: (BuildContext context,
@@ -651,19 +687,27 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                 ),
               ),
               ///////////////0
-              Container(
-                height: 100,
-                child: Text('hola'),
+              SizedBox(
+                height: 30,
+              ),
+              Center(
+                child: Text(
+                  'La Escuela es Nuestra - Mejor Escuela',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                ),
               ),
               Container(
                 // color: Colors.purple,
-                height: 200,
+                height: 400,
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                   stream: _auth.currentUser != null
                       ? FirebaseFirestore.instance
                           .collection('usuarios')
                           .doc(_auth.currentUser!.uid)
-                          .collection('bienestarBecas')
+                          .collection('mejorEscuela')
                           .snapshots()
                       : const Stream.empty(),
                   builder: (BuildContext context,
@@ -689,61 +733,119 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Center(
-                                    child: Text(
-                                      'La Escuela es Nuestra - Mejor Escuela',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Container(
-                                    height: 150,
-                                    // color: Colors.pink,
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Column(
+                                  Row(
+                                    // crossAxisAlignment:
+                                    //     CrossAxisAlignment.center,
+                                    // mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Column(
                                         children: [
-                                          DataTable(
-                                            columns: [
-                                              DataColumn(
-                                                label: Text('Trabajo'),
-                                              ),
-                                              DataColumn(
-                                                label: Text('2019'),
-                                              ),
-                                              DataColumn(
-                                                label: Text('2020'),
-                                              ),
-                                              DataColumn(
-                                                label: Text('2021'),
-                                              ),
-                                              DataColumn(
-                                                label: Text('2022'),
-                                              ),
-                                            ],
-                                            rows: [
-                                              DataRow(cells: [
-                                                DataCell(Text('TRABAJO')),
-                                                DataCell(Text('')),
-                                                DataCell(Text('')),
-                                                DataCell(Container(
-                                                    width: 70,
-                                                    child: Text(
-                                                        'Sillas, bancas y pupitres'))),
-                                                DataCell(Text('')),
-                                              ]),
-                                            ],
+                                          Container(
+                                            // color: Colors.red,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.45,
+                                            child: Text(
+                                              data['anio'].toString(),
+                                            ),
                                           ),
-                                          SizedBox(
-                                            height: 10,
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              // color: Colors.red,
+                                              border: Border.all(
+                                                  color: Colors.black),
+                                            ),
+                                            height: 100,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.40,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                data['descripcion'].toString(),
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      // Column(
+                                      //   children: [
+                                      //     Container(
+                                      //       color: Colors.red,
+                                      //       width: MediaQuery.of(context)
+                                      //               .size
+                                      //               .height *
+                                      //           0.20,
+                                      //       // height: 30,
+                                      //       child: Text(
+                                      //         data['anio'].toString(),
+                                      //       ),
+                                      //     ),
+                                      //     Container(
+                                      //       height: 100,
+                                      //       child: Text(
+                                      //         data['descripcion'].toString(),
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                    ],
                                   ),
+
+                                  // SizedBox(height: 10),
+                                  // Container(
+                                  //   height: 150,
+                                  //   // color: Colors.pink,
+                                  //   child: SingleChildScrollView(
+                                  //     scrollDirection: Axis.horizontal,
+                                  //     child: Column(
+                                  //       children: [
+                                  //         DataTable(
+                                  //           columns: [
+                                  //             DataColumn(
+                                  //               label: Text('Trabajo'),
+                                  //             ),
+                                  //             DataColumn(
+                                  //               label: Text('2019'),
+                                  //             ),
+                                  //             DataColumn(
+                                  //               label: Text('2020'),
+                                  //             ),
+                                  //             DataColumn(
+                                  //               label: Text('2021'),
+                                  //             ),
+                                  //             DataColumn(
+                                  //               label: Text('2022'),
+                                  //             ),
+                                  //           ],
+                                  //           rows: [
+                                  //             DataRow(cells: [
+                                  //               DataCell(Text('TRABAJO')),
+                                  //               DataCell(Text('')),
+                                  //               DataCell(Text('')),
+                                  //               DataCell(Container(
+                                  //                   width: 70,
+                                  //                   child: Text(
+                                  //                       'Sillas, bancas y pupitres'))),
+                                  //               DataCell(Text('')),
+                                  //             ]),
+                                  //           ],
+                                  //         ),
+                                  //         SizedBox(
+                                  //           height: 10,
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             );
@@ -754,14 +856,20 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                   },
                 ),
               ),
-              Container(
-                height: 100,
-                child: Text('hola'),
+
+              Center(
+                child: Text(
+                  'Bienestar para Niñas y Niños, Mi Beca para Empezar',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15),
+                ),
               ),
 
               Container(
-                color: Colors.red,
-                height: 280,
+                // color: Colors.red,
+                height: 550,
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                   stream: _auth.currentUser != null
                       ? FirebaseFirestore.instance
@@ -787,56 +895,108 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                           itemBuilder: (BuildContext context, int index) {
                             final data = docs[index];
 
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  DataTable(
-                                    columns: [
-                                      DataColumn(
-                                        label: Container(
-                                          // color: Colors.purple,
-                                          child: Text('Año'),
-                                        ),
-                                      ),
-                                      DataColumn(
-                                          label: Container(
-                                              width: 50, child: Text('2019'))),
-                                      DataColumn(
-                                          label: Container(
-                                              width: 50, child: Text('2020'))),
-                                      DataColumn(
-                                          label: Container(
-                                              width: 50, child: Text('2021'))),
-                                      DataColumn(
-                                          label: Container(
-                                              width: 50, child: Text('2022'))),
-                                    ],
-                                    rows: [
-                                      DataRow(cells: [
-                                        DataCell(
-                                          Container(
-                                            // color: Colors.purple,
-                                            // height: 100,
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Container(
+                                            height: 100,
                                             width: 100,
-                                            child: Text(
-                                              data['nivel'].toString(),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                  color: Colors.black),
+                                              // color: Colors.purple,
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                data['nivel'].toString(),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                        DataCell(Container(
-                                            width: 30, child: Text('368'))),
-                                        DataCell(Text('361')),
-                                        DataCell(Text('347')),
-                                        DataCell(Text('328')),
-                                      ]),
-                                    ],
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Container(
+                                            height: 100,
+                                            width: 150,
+                                            // color: Colors.purple,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                  color: Colors.black),
+                                              // color: Colors.purple,
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Descripcion',
+                                                ),
+                                                Text(
+                                                  data['descripcion']
+                                                      .toString(),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
+                                          child: Container(
+                                            height: 100,
+                                            width: 150,
+                                            // color: Colors.purple,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                  color: Colors.black),
+                                              // color: Colors.purple,
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Año',
+                                                ),
+                                                Text(
+                                                  data['anio'].toString(),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+
+                                        // Column(
+                                        //   crossAxisAlignment:
+                                        //       CrossAxisAlignment.start,
+                                        //   children: [
+                                        //     Text(data['nivel'].toString()),
+                                        //   ],
+                                        // ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.all(8.0),
+                                        //   child: SizedBox(
+                                        //     height: 15,
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
                                   ),
-                                  SizedBox(
-                                    height: 15,
-                                  )
                                 ],
                               ),
                             );
@@ -847,9 +1007,9 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                   },
                 ),
               ),
-              SizedBox(
-                height: 300,
-              )
+              // SizedBox(
+              //   height: 300,
+              // )
 
               // // Center(
               //   child: Text(
@@ -951,6 +1111,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
               //   ),
               // ),
               // SizedBox(height: 30),
+
+              SizedBox(height: 30),
             ],
           ),
         ));

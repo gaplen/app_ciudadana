@@ -16,6 +16,8 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   String _searchText = "";
+  bool _showSearchBar = false;
+  // String _searchText = "";
   @override
   void dispose() {
     _searchController.dispose();
@@ -26,23 +28,54 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: TextField(
-            controller: _searchController,
-            decoration: const InputDecoration(
-              hintText: "Buscar escuela",
-              border: InputBorder.none,
-            ),
-            onChanged: (value) {
-              setState(() {
-                _searchText = value;
-              });
-            },
-          ),
+        backgroundColor: Color(0xff59554e),
+        title: AnimatedSwitcher(
+          duration: Duration(milliseconds: 200),
+          child: _showSearchBar
+              ? TextField(
+                  controller: _searchController,
+                  decoration: const InputDecoration(
+                    hintText: "Buscar...",
+                    border: InputBorder.none,
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _searchText = value;
+                    });
+                  },
+                )
+              : Center(child: Text("Escuelas")),
         ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 18.0),
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 200),
+              child: _showSearchBar
+                  ? IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () {
+                        setState(() {
+                          _showSearchBar = false;
+                          _searchText = "";
+                          _searchController.clear();
+                        });
+                      },
+                    )
+                  : IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        setState(() {
+                          _showSearchBar = true;
+                        });
+                      },
+                    ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff59554e),
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(
@@ -56,6 +89,9 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
                 .collection('usuarios')
                 .doc(_auth.currentUser!.uid)
                 .collection('escuelas')
+                .where('nombreEscuela', isGreaterThanOrEqualTo: _searchText)
+                .where('nombreEscuela',
+                    isLessThanOrEqualTo: _searchText + '\uf8ff')
                 .snapshots()
             : const Stream.empty(),
         builder: (BuildContext context,
@@ -74,71 +110,110 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   final data = docs[index];
 
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 130,
-                        width: double.infinity,
-                        color: Colors.red,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      top: 15.0,
+                      right: 15,
+                      left: 15,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Color(0xffe2e3d9),
+                            border: Border.all(color: Colors.black, width: 1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
                               const SizedBox(width: 25),
                               Row(
                                 children: [
-                                  Text(
-                                    'Escuela:${data['nombreEscuela']}',
-                                    // data['nombreEscuela'].toString(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20,
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: CircleAvatar(
+                                      radius: 25,
+                                      backgroundColor: Color(0xff59554e),
+                                      backgroundImage:
+                                          AssetImage('assets/escuela.png'),
+                                      child: Container(),
                                     ),
                                   ),
-                                  Spacer(),
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    // color: Colors.red,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.5,
+                                        // color: Colors.red,
+                                        child: Text(
+                                          'Escuela  : ${data['nombreEscuela']}',
+                                          overflow: TextOverflow.ellipsis,
+                                          // data['nombreEscuela'].toString(),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Nivel       : ${data['nivel']}',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Telefono: ${data['telefono']}',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  // Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 18.0),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
                                             builder: (_) => EditEscuelaScreen(
-                                                  data: data,
-                                                  escuelaId: '',
-                                                )),
-                                      );
-                                    },
-                                    icon: const Icon(Icons.edit),
+                                              data: data,
+                                              escuelaId: data.id,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.edit),
+                                    ),
                                   ),
                                 ],
-                              ),
-                              Text(
-                                'Nivel: ${data['nivel']}',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Telefono:${data['telefono']}',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                ),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      )
-                    ],
+                        const SizedBox(
+                          height: 20,
+                        )
+                      ],
+                    ),
                   );
                 },
               );

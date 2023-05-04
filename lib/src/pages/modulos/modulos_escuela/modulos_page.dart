@@ -18,105 +18,152 @@ class _ModulosScreenState extends State<ModulosScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff59554e),
         title: const Text('modulos page'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 150,
-                width: 150,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Acción del botón
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (_) => const RegistroEscuela(),
+      body: Container(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 150,
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Acción del botón
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const RegistroEscuela(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Registro de escuela',
+                          textAlign: TextAlign.center,
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xff59554e),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                  child: Text('Registro de escuela'),
-                ),
-              ),
-              SizedBox(width: 20),
-              Container(
-                height: 150,
-                width: 150,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Acción del botón
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (_) => const FichaTecnicaPage(),
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      height: 150,
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Acción del botón
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const FichaTecnicaPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Ficha técnica del inmueble',
+                          textAlign: TextAlign.center,
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xff59554e),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                  child: const Text('Ficha técnica del inmueble'),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 150,
-                width: 150,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Acción del botón
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const ComiteEjecucionPage(),
+                SizedBox(height: 20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 150,
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Acción del botón
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const ComiteEjecucionPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Comité de ejecución',
+                          textAlign: TextAlign.center,
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xff59554e),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                  child: const Text('Comité de ejecución'),
-                ),
-              ),
-              SizedBox(width: 20),
-              Container(
-                height: 150,
-                width: 150,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Acción del botón
+                    ),
+                    SizedBox(width: 20),
+                    Container(
+                      height: 150,
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Acción del botón
 
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const ComiteVigilanciaPage(),
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const ComiteVigilanciaPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Comité de vigilancia',
+                          textAlign: TextAlign.center,
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xff59554e),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                  child: const Text('Comité de vigilancia'),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Container(
-            height: 150,
-            width: 150,
-            child: ElevatedButton(
-              onPressed: () {
-                // Acción del botón
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const ComiteBienestarPage(),
+                SizedBox(height: 20),
+                Container(
+                  height: 150,
+                  width: 150,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Acción del botón
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const ComiteBienestarPage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Comité de bienestar',
+                      textAlign: TextAlign.center,
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        Color(0xff59554e),
+                      ),
+                    ),
                   ),
-                );
-              },
-              child: const Text('Comité de bienestar'),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

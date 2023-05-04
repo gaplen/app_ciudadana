@@ -10,25 +10,25 @@ class CatalogPage extends StatefulWidget {
 class _CatalogPageState extends State<CatalogPage> {
   // Lista de elementos de catálogo
   final List<String> _catalogItems = [
-    'Producto 1',
-    'Producto 2',
-    'Producto 3',
-    'Producto 4',
-    'Producto 5',
-    'Producto 6',
-    'Producto 7',
-    'Producto 8',
-    'Producto 9',
-    'Producto 10',
+    'Etiqueta 1',
+    'Etiqueta 2',
+    'Etiqueta 3',
+    'Etiqueta 4',
+    'Etiqueta 5',
+    'Etiqueta 6',
+    'Etiqueta 7',
+    'Etiqueta 8',
+    'Etiqueta 9',
+    'Etiqueta 10',
   ];
 
   // Lista de categorías de catálogo
   final List<String> _catalogCategories = [
-    'Categoría 1',
-    'Categoría 2',
-    'Categoría 3',
-    'Categoría 4',
-    'Categoría 5',
+    'Etiquedata 1',
+    'Etiquedata 2',
+    'Etiquedata 3',
+    'Etiquedata 4',
+    'Etiquedata 5',
   ];
 
   // Categoría actual seleccionada

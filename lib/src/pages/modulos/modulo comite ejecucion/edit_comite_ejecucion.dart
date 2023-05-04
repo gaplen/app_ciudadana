@@ -2,23 +2,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class EditEscuelaScreen extends StatefulWidget {
+class EditEjecucionScreen extends StatefulWidget {
   final QueryDocumentSnapshot<Map<String, dynamic>> data;
   final String escuelaId;
 
-  const EditEscuelaScreen({required this.data, required this.escuelaId});
+  const EditEjecucionScreen({required this.data, required this.escuelaId});
 
   @override
-  _EditEscuelaScreenState createState() => _EditEscuelaScreenState();
+  _EditEjecucionScreenState createState() => _EditEjecucionScreenState();
 }
 
-class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
+class _EditEjecucionScreenState extends State<EditEjecucionScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nombreEscuelaController =
-      TextEditingController();
-  final TextEditingController _nivelController = TextEditingController();
-  final TextEditingController _nombreContactoController =
-      TextEditingController();
+  final TextEditingController _puestoController = TextEditingController();
+  // final TextEditingController _nivelController = TextEditingController();
+  final TextEditingController _nombreController = TextEditingController();
   final TextEditingController _telefonoController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
@@ -26,16 +24,16 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
   @override
   void initState() {
     super.initState();
-    _nombreEscuelaController.text = widget.data['nombreEscuela'];
-    _nivelController.text = widget.data['nivel'];
+    _puestoController.text = widget.data['puesto'];
+    _nombreController.text = widget.data['nombre'];
     // _nombreContactoController.text = widget.data['nombreContacto'];
     _telefonoController.text = widget.data['telefono'];
   }
 
   @override
   void dispose() {
-    _nombreEscuelaController.dispose();
-    _nivelController.dispose();
+    _puestoController.dispose();
+    _nombreController.dispose();
     // _nombreContactoController.dispose();
     _telefonoController.dispose();
     super.dispose();
@@ -43,11 +41,11 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
 
   void _updateData(String currentUser) async {
     await FirebaseFirestore.instance
-        .collection('escuelas')
+        .collection('comiteEjecucion')
         .doc(_auth.currentUser!.uid)
         .update({
-      'nombreEscuela': _nombreEscuelaController.text,
-      'nivel': _nivelController.text,
+      'puesto': _puestoController.text,
+      'nombre': _nombreController.text,
       // 'nombreContacto': _nombreContactoController.text,
       'telefono': _telefonoController.text,
     });
@@ -59,7 +57,7 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Editar Escuela"),
+        title: const Text("Editar ejecucion"),
         backgroundColor: Color(0xff59554e),
       ),
       body: Container(
@@ -80,9 +78,9 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
-                    controller: _nombreEscuelaController,
+                    controller: _puestoController,
                     decoration: const InputDecoration(
-                      labelText: "Nombre de la escuela",
+                      labelText: "Puesto",
                     ),
                   ),
                 ),
@@ -90,9 +88,19 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
-                    controller: _nivelController,
+                    controller: _nombreController,
                     decoration: const InputDecoration(
-                      labelText: "Nivel",
+                      labelText: "Nombre",
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: TextFormField(
+                    controller: _telefonoController,
+                    decoration: const InputDecoration(
+                      labelText: "Telefono",
                     ),
                   ),
                 ),
@@ -100,22 +108,12 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
                 // Padding(
                 //   padding: const EdgeInsets.symmetric(horizontal: 15),
                 //   child: TextFormField(
-                //     controller: _nombreContactoController,
+                //     controller: _telefonoController,
                 //     decoration: const InputDecoration(
-                //       labelText: "Nombre del contacto",
+                //       labelText: "Teléfono",
                 //     ),
                 //   ),
                 // ),
-                // const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: TextFormField(
-                    controller: _telefonoController,
-                    decoration: const InputDecoration(
-                      labelText: "Teléfono",
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                     onPressed: () {
@@ -125,12 +123,12 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
                         FirebaseFirestore.instance
                             .collection('usuarios')
                             .doc(currentUser!.uid)
-                            .collection('escuelas')
+                            .collection('comiteEjecucion')
                             .doc(widget.escuelaId)
                             .update(
                           {
-                            'nombreEscuela': _nombreEscuelaController.text,
-                            'nivel': _nivelController.text,
+                            'puesto': _puestoController.text,
+                            'nombre': _nombreController.text,
                             'telefono': _telefonoController.text,
                           },
                         );

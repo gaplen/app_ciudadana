@@ -6,34 +6,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class RegistroBienestarBeca extends StatefulWidget {
-  const RegistroBienestarBeca({super.key});
+class MejorEscuelaRegistro extends StatefulWidget {
+  const MejorEscuelaRegistro({super.key});
 
   @override
-  _RegistroBienestarBecaState createState() => _RegistroBienestarBecaState();
+  _MejorEscuelaRegistroState createState() => _MejorEscuelaRegistroState();
 }
 
-class _RegistroBienestarBecaState extends State<RegistroBienestarBeca> {
+class _MejorEscuelaRegistroState extends State<MejorEscuelaRegistro> {
   final _formKey = GlobalKey<FormState>();
-  String? nivel;
+
   String? anio;
   String? descripcion;
 
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
-  List<String> ctt = [
-    'Alumnos Beneficiados CTT1',
-    'Alumnos Beneficiados CTT2',
-    'Alumnos Beneficiados CTT3',
-    'Alumnos Beneficiados CTT4',
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Mejor escuela'),
         backgroundColor: Color(0xff59554e),
-        title: const Text('registroBienestar'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -41,32 +35,6 @@ class _RegistroBienestarBecaState extends State<RegistroBienestarBeca> {
           key: _formKey,
           child: ListView(
             children: [
-              DropdownButtonFormField<String>(
-                value: nivel,
-                items: ctt.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    nivel = value;
-                  });
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Seleccione el nivel escolar',
-                ),
-              ),
-              // TextField(
-              //   keyboardType: TextInputType.emailAddress,
-              //   onChanged: (value) {
-              //     numCTT = value;
-              //   },
-              //   decoration: const InputDecoration(
-              //     hintText: 'Introduzca su CTT',
-              //   ),
-              // ),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
@@ -83,10 +51,9 @@ class _RegistroBienestarBecaState extends State<RegistroBienestarBeca> {
                   descripcion = value;
                 },
                 decoration: const InputDecoration(
-                  hintText: 'Introduzca descripcion',
+                  hintText: 'descripcion',
                 ),
               ),
-
               const SizedBox(
                 height: 40,
               ),
@@ -98,20 +65,14 @@ class _RegistroBienestarBecaState extends State<RegistroBienestarBeca> {
                       final data = {
                         'anio': anio,
                         'descripcion': descripcion,
-                        // 'numCTT': numCTT,
-                        'nivel': nivel,
                       };
                       await _firestore
                           .collection('usuarios')
                           .doc(user.uid)
-                          .collection('bienestarBecas')
+                          .collection('mejorEscuela')
                           .add(data);
                       Navigator.pop(context);
 
-                      // Navigator.of(context).pushReplacement(
-                      //   MaterialPageRoute(
-                      //       builder: (_) => const ComiteBienestarPage()),
-                      // );
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Formulario agregado correctamente'),

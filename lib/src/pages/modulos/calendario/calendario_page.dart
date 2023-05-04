@@ -2,7 +2,9 @@ import 'dart:collection';
 
 import 'package:app_ciudadana/src/pages/modulos/calendario/add_event.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/agendar_evento.dart';
+import 'package:app_ciudadana/src/pages/modulos/calendario/bitacora_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:app_ciudadana/src/models/event.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -16,7 +18,9 @@ class CaledarioPage extends StatefulWidget {
 }
 
 class _CaledarioPageState extends State<CaledarioPage> {
+  final _auth = FirebaseAuth.instance;
   late DateTime _focusedDay;
+
   late DateTime _firstDay;
   late DateTime _lastDay;
   late DateTime _selectedDay;
@@ -48,7 +52,11 @@ class _CaledarioPageState extends State<CaledarioPage> {
     final lastDay = DateTime(_focusedDay.year, _focusedDay.month + 1, 0);
     _events = {};
 
+    final currentUser = _auth.currentUser;
+
     final snap = await FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(currentUser!.uid)
         .collection('events')
         .where('date', isGreaterThanOrEqualTo: firstDay)
         .where('date', isLessThanOrEqualTo: lastDay)
@@ -169,6 +177,8 @@ class _CaledarioPageState extends State<CaledarioPage> {
                       );
                       if (delete ?? false) {
                         await FirebaseFirestore.instance
+                            .collection('usuarios')
+                            .doc(_auth.currentUser!.uid)
                             .collection('events')
                             .doc(event.id)
                             .delete();
@@ -227,6 +237,9 @@ class _CaledarioPageState extends State<CaledarioPage> {
             title: Text('Bitácora'),
             onTap: () {
               // Acción cuando se selecciona "Bitácora"
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const BitacoraScreen()),
+              );
             },
           ),
           ListTile(

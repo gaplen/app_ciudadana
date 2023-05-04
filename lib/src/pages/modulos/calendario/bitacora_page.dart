@@ -1,25 +1,41 @@
+import 'package:app_ciudadana/src/pages/modulos/calendario/bitacora_add_page.dart';
+import 'package:app_ciudadana/src/pages/modulos/calendario/edit_event.dart';
 import 'package:app_ciudadana/src/pages/modulos/comite%20de%20bienestar/comite_edit_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'comite_bienestar.dart';
+import 'package:intl/intl.dart';
 
-class ComiteBienestarPage extends StatefulWidget {
-  const ComiteBienestarPage({super.key});
+class BitacoraScreen extends StatefulWidget {
+  const BitacoraScreen({super.key});
 
   @override
-  State<ComiteBienestarPage> createState() => _ComiteBienestarPageState();
+  State<BitacoraScreen> createState() => _BitacoraScreenState();
 }
 
-class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
+class _BitacoraScreenState extends State<BitacoraScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _searchController = TextEditingController();
+  final _dateFormat = DateFormat('dd/MM/yyyy');
+  DateTime _selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate,
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now());
+
+    if (picked != null && picked != _selectedDate)
+      setState(() {
+        _selectedDate = picked;
+      });
+  }
 
   String _searchText = "";
-  bool _showSearchBar = false;
-  // TextEditingController _searchController = TextEditingController();
 
+  bool _showSearchBar = false;
   @override
   void dispose() {
     _searchController.dispose();
@@ -28,6 +44,8 @@ class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentDate = DateTime.now();
+    final currentDateString = _dateFormat.format(currentDate);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff59554e),
@@ -46,7 +64,7 @@ class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
                     });
                   },
                 )
-              : Center(child: Text("Comite Bienestar")),
+              : Center(child: Text("Bitacora")),
         ),
         actions: <Widget>[
           Padding(
@@ -76,12 +94,32 @@ class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
           ),
         ],
       ),
+      //
+      // AppBar(
+      //   backgroundColor: Color(0xff59554e),
+      //   title: Padding(
+      //     padding: const EdgeInsets.only(right: 10),
+      //     child: TextField(
+      //       controller: _searchController,
+      //       decoration: const InputDecoration(
+      //         hintText: "Bitacora",
+      //         border: InputBorder.none,
+      //       ),
+      //       onChanged: (value) {
+      //         setState(() {
+      //           _searchText = value;
+      //         });
+      //       },
+      //     ),
+      //   ),
+      // ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xff59554e),
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => RegistroComiteBienestar()),
+            MaterialPageRoute(builder: (_) => BitacoraAddPage()),
           );
         },
       ),
@@ -90,9 +128,9 @@ class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
             ? FirebaseFirestore.instance
                 .collection('usuarios')
                 .doc(_auth.currentUser!.uid)
-                .collection('comiteBienestar')
-                .where('nombre', isGreaterThanOrEqualTo: _searchText)
-                .where('nombre', isLessThanOrEqualTo: _searchText + '\uf8ff')
+                .collection('events')
+                .where('title', isGreaterThanOrEqualTo: _searchText)
+                .where('title', isLessThanOrEqualTo: _searchText + '\uf8ff')
                 .snapshots()
             : const Stream.empty(),
         builder: (BuildContext context,
@@ -110,6 +148,8 @@ class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
                 itemCount: docs.length,
                 itemBuilder: (BuildContext context, int index) {
                   final data = docs[index];
+                  DateTime date = DateTime.fromMillisecondsSinceEpoch(
+                      data['date'].seconds * 1000);
 
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -142,7 +182,7 @@ class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
                                         backgroundColor: Color(0xff59554e),
                                         radius: 35,
                                         backgroundImage:
-                                            AssetImage('assets/comite.png'),
+                                            AssetImage('assets/calendar.png'),
                                       ),
                                     ),
                                     Padding(
@@ -152,50 +192,26 @@ class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.5,
-                                            // color: Colors.red,
-                                            child: Text(
-                                              'Puesto    : ${data['puesto']}',
-                                              // data['nombreEscuela'].toString(),
-                                              style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14,
-                                              ),
+                                          Text(
+                                            'Fecha    : ${_dateFormat.format(date)}',
+                                            // data['nombreEscuela'].toString(),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
                                             ),
                                           ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.5,
-                                            // color: Colors.red,
-                                            child: Text(
-                                              'Nombre  : ${data['nombre']}',
-                                              style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14,
-                                              ),
+                                          Text(
+                                            'Titulo  : ${data['title']}',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
                                             ),
                                           ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.5,
-                                            // color: Colors.red,
-                                            child: Text(
-                                              'Telefono: ${data['telefono']}',
-                                              style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14,
-                                              ),
+                                          Text(
+                                            'Descripcion: ${data['description']}',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
                                             ),
                                           ),
                                         ],
@@ -207,11 +223,14 @@ class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
                                         onPressed: () {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
-                                              builder: (_) =>
-                                                  EditComiteBienestar(
+                                              builder: (_) => BitacoraEditPage(
                                                 data: data,
                                                 escuelaId: data.id,
                                               ),
+                                              //     EditComiteBienestar(
+                                              //   data: data,
+                                              //   escuelaId: data.id,
+                                              // ),
                                             ),
                                           );
                                         },

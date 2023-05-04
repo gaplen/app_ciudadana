@@ -1,326 +1,148 @@
-// // // import 'package:flutter/material.dart';
-
-// // // class EditBienestarPage extends StatefulWidget {
-// // //   const EditBienestarPage({super.key});
-
-// // //   @override
-// // //   State<EditBienestarPage> createState() => _EditBienestarPageState();
-// // // }
-
-// // // class _EditBienestarPageState extends State<EditBienestarPage> {
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     return Scaffold(
-// // //       appBar: AppBar(
-// // //         title: Text('edit comite bienestar'),
-// // //       ),
-// // //     );
-// // //   }
-// // // }
-// // import 'package:flutter/material.dart';
-
-// // class EditarComiteBienestarPage extends StatefulWidget {
-// //   const EditarComiteBienestarPage({Key? key}) : super(key: key);
-
-// //   @override
-// //   _EditarComiteBienestarPageState createState() =>
-// //       _EditarComiteBienestarPageState();
-// // }
-
-// // class _EditarComiteBienestarPageState extends State<EditarComiteBienestarPage> {
-// //   late String puesto;
-// //   late String nombre;
-// //   late String aPaterno;
-// //   late String aMaterno;
-// //   late String telefono;
-// //   late String curp;
-// //   late String calle;
-// //   late String numero;
-// //   late String colonia;
-// //   late String codigoPostal;
-// //   late String municipio;
-
-// //   @override
-// //   void initState() {
-// //     super.initState();
-
-// //     final Map<String, dynamic> arguments =
-// //         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
-// //     puesto = arguments['puesto'] ?? '';
-// //     nombre = arguments['nombre'] ?? '';
-// //     aPaterno = arguments['aPaterno'] ?? '';
-// //     aMaterno = arguments['aMaterno'] ?? '';
-
-// //     telefono = arguments['telefono'] ?? '';
-// //     curp = arguments['curp'] ?? '';
-// //     calle = arguments['calle'] ?? '';
-// //     numero = arguments['numero'] ?? '';
-// //     colonia = arguments['colonia'] ?? '';
-// //     codigoPostal = arguments['codigoPostal'] ?? '';
-// //     municipio = arguments['municipio'] ?? '';
-// //   }
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     // TODO: implement build
-// //     throw UnimplementedError();
-// //   }
-// // }
-
-// import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-
-// class ComiteEditPage extends StatefulWidget {
-//   final DocumentSnapshot user;
-
-//   const ComiteEditPage({required this.user});
-
-//   @override
-//   _ComiteEditPageState createState() => _ComiteEditPageState();
-// }
-
-// class _ComiteEditPageState extends State<ComiteEditPage> {
-//   final _formKey = GlobalKey<FormState>();
-
-//   late String _puesto;
-//   late String _nombre;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _puesto = widget.user['puesto'];
-//     _nombre = widget.user['nombre'];
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Editar usuario'),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Form(
-//           key: _formKey,
-//           child: ListView(
-//             children: [
-//               TextFormField(
-//                 initialValue: _puesto,
-//                 decoration: const InputDecoration(
-//                   labelText: 'Puesto',
-//                 ),
-//                 onChanged: (value) {
-//                   _puesto = value;
-//                 },
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Por favor, introduzca el puesto';
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               TextFormField(
-//                 initialValue: _nombre,
-//                 decoration: const InputDecoration(
-//                   labelText: 'Nombre',
-//                 ),
-//                 onChanged: (value) {
-//                   _nombre = value;
-//                 },
-//                 validator: (value) {
-//                   if (value == null || value.isEmpty) {
-//                     return 'Por favor, introduzca el nombre';
-//                   }
-//                   return null;
-//                 },
-//               ),
-//               ElevatedButton(
-//                 onPressed: () async {
-//                   if (_formKey.currentState!.validate()) {
-//                     try {
-//                       final user = FirebaseAuth.instance.currentUser;
-//                       if (user != null) {
-//                         final data = {
-//                           'fecha': FieldValue.serverTimestamp(),
-//                           'puesto': _puesto,
-//                           'nombre': _nombre,
-//                         };
-//                         await FirebaseFirestore.instance
-//                             .collection('usuarios')
-//                             .doc(user.uid)
-//                             .collection('comiteBienestar')
-//                             .doc(widget.user.id)
-//                             .update(data);
-//                         Navigator.of(context).pop();
-//                         ScaffoldMessenger.of(context).showSnackBar(
-//                           const SnackBar(
-//                             content: Text('Usuario editado correctamente'),
-//                           ),
-//                         );
-//                       }
-//                     } catch (e) {
-//                       print(e);
-//                     }
-//                   }
-//                 },
-//                 child: const Text('Guardar cambios'),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class EditarComiteBienestarPage extends StatefulWidget {
-  final QueryDocumentSnapshot<Map<String, dynamic>>? comiteBienestar;
+class EditComiteBienestar extends StatefulWidget {
+  final QueryDocumentSnapshot<Map<String, dynamic>> data;
+  final String escuelaId;
 
-  const EditarComiteBienestarPage(
-      {super.key,
-      QueryDocumentSnapshot<Map<String, dynamic>>? data,
-      this.comiteBienestar});
+  const EditComiteBienestar({required this.data, required this.escuelaId});
 
   @override
-  _EditarComiteBienestarPageState createState() =>
-      _EditarComiteBienestarPageState();
+  _EditComiteBienestarState createState() => _EditComiteBienestarState();
 }
 
-class _EditarComiteBienestarPageState extends State<EditarComiteBienestarPage> {
+class _EditComiteBienestarState extends State<EditComiteBienestar> {
   final _formKey = GlobalKey<FormState>();
-  final _nombreController = TextEditingController();
-  final _aPaternoController = TextEditingController();
-  final _aMaternoController = TextEditingController();
-  final _telefonoController = TextEditingController();
-
-  bool _guardando = false;
+  final TextEditingController _puestoController = TextEditingController();
+  // final TextEditingController _nivelController = TextEditingController();
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _telefonoController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-
-    final data = widget.comiteBienestar?.data();
-    _nombreController.text = data?['nombre'] as String;
-    _aPaternoController.text = data?['aPaterno'] as String;
-    _aMaternoController.text = data?['aMaterno'] as String;
-    _telefonoController.text = data?['telefono'] as String;
+    _puestoController.text = widget.data['puesto'];
+    _nombreController.text = widget.data['nombre'];
+    // _nombreContactoController.text = widget.data['nombreContacto'];
+    _telefonoController.text = widget.data['telefono'];
   }
 
   @override
   void dispose() {
+    _puestoController.dispose();
     _nombreController.dispose();
-    _aPaternoController.dispose();
-    _aMaternoController.dispose();
+    // _nombreContactoController.dispose();
     _telefonoController.dispose();
     super.dispose();
   }
 
-  Future<void> _guardarCambios() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() {
-      _guardando = true;
+  void _updateData(String currentUser) async {
+    await FirebaseFirestore.instance
+        .collection('comiteBienestar')
+        .doc(_auth.currentUser!.uid)
+        .update({
+      'puesto': _puestoController.text,
+      'nombre': _nombreController.text,
+      // 'nombreContacto': _nombreContactoController.text,
+      'telefono': _telefonoController.text,
     });
 
-    final user = FirebaseAuth.instance.currentUser;
-    final comiteRef = FirebaseFirestore.instance
-        .collection('usuarios')
-        .doc(user!.uid)
-        .collection('comiteBienestar');
-    final newData = {
-      'nombre': _nombreController.text.trim(),
-      'aPaterno': _aPaternoController.text.trim(),
-      'aMaterno': _aMaternoController.text.trim(),
-      'telefono': _telefonoController.text.trim(),
-    };
-
-    try {
-      await comiteRef.doc(widget.comiteBienestar?.id).update(newData);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Cambios guardados')),
-      );
-      Navigator.pop(context);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al guardar cambios')),
-      );
-    } finally {
-      setState(() {
-        _guardando = false;
-      });
-    }
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Editar miembro')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextFormField(
-                controller: _nombreController,
-                decoration: InputDecoration(labelText: 'Nombre'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Ingrese el nombre';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _aPaternoController,
-                decoration: InputDecoration(labelText: 'Apellido paterno'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Ingrese el apellido paterno';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _aMaternoController,
-                decoration: InputDecoration(labelText: 'Apellido materno'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Ingrese el apellido materno';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _telefonoController,
-                decoration: InputDecoration(labelText: 'Teléfono'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Ingrese el teléfono';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _guardando ? null : _guardarCambios,
-                child: _guardando
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      )
-                    : const Text('Guardar cambios'),
-              ),
-            ],
+      appBar: AppBar(
+        title: const Text("Editar ejecucion"),
+        backgroundColor: Color(0xff59554e),
+      ),
+      body: Container(
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xffa1c1be), Color(0xff9ec4bb), Color(0xffeed7c5)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: TextFormField(
+                    controller: _puestoController,
+                    decoration: const InputDecoration(
+                      labelText: "Puesto",
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: TextFormField(
+                    controller: _nombreController,
+                    decoration: const InputDecoration(
+                      labelText: "Nombre",
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: TextFormField(
+                    controller: _telefonoController,
+                    decoration: const InputDecoration(
+                      labelText: "Telefono",
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 15),
+                //   child: TextFormField(
+                //     controller: _telefonoController,
+                //     decoration: const InputDecoration(
+                //       labelText: "Teléfono",
+                //     ),
+                //   ),
+                // ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                    onPressed: () {
+                      final currentUser = _auth.currentUser;
+                      if (_formKey.currentState!.validate()) {
+                        // Guarda los nuevos datos de la escuela en la base de datos.
+                        FirebaseFirestore.instance
+                            .collection('usuarios')
+                            .doc(currentUser!.uid)
+                            .collection('comiteBienestar')
+                            .doc(widget.escuelaId)
+                            .update(
+                          {
+                            'puesto': _puestoController.text,
+                            'nombre': _nombreController.text,
+                            'telefono': _telefonoController.text,
+                          },
+                        );
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text("Guardar cambios"),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xff8c6d62)),
+                    )),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

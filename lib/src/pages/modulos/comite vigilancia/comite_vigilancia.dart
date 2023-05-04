@@ -57,162 +57,366 @@ class _RegistroComiteVigilanciaState extends State<RegistroComiteVigilancia> {
     final currentDate = DateTime.now();
     final currentDateString = _dateFormat.format(currentDate);
     return Scaffold(
-      appBar: AppBar(title: const Text('Registro comite vigilancia')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              // Text(
-              //   'Fecha: $currentDateString',
-              //   style: const TextStyle(fontSize: 16),
-              // ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {
-                  puesto = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su puesto',
+      appBar: AppBar(
+        title: const Text('Registro comite vigilancia'),
+        backgroundColor: Color(0xff59554e),
+      ),
+      body: Container(
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xffa1c1be), Color(0xff9ec4bb), Color(0xffeed7c5)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                // Text(
+                //   'Fecha: $currentDateString',
+                //   style: const TextStyle(fontSize: 16),
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Puesto',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      puesto = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {
-                  nombre = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su nombre',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Nombre',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu nombre';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      nombre = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  aPaterno = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su apellido paterno',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Apellido Paterno',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      aPaterno = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  aMaterno = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su apellido materno',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Apellido Materno',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      aMaterno = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  telefono = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su telefono',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Telefono',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      telefono = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  curp = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su curp',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Curp',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      curp = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  calle = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su calle',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Calle',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      calle = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  numero = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su numero',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Numero',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      numero = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  colonia = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su colonia',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Colonia',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      colonia = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  codigoPostal = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su codigo postal',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'C.P.',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      codigoPostal = value;
+                    },
+                  ),
                 ),
-              ),
-              TextField(
-                onChanged: (value) {
-                  municipio = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca su municipio',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Municipio',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, introduce tu puesto';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      municipio = value;
+                    },
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  try {
-                    final user = await _auth.currentUser;
-                    if (user != null) {
-                      final data = {
-                        'fecha': FieldValue.serverTimestamp(),
-                        'puesto': puesto,
-                        'nombre': nombre,
-                        'aPaterno': aPaterno,
-                        'aMaterno': aMaterno,
-                        'telefono': telefono,
-                        'curp': curp,
-                        'calle': calle,
-                        'numero': numero,
-                        'colonia': colonia,
-                        'codigoPostal': codigoPostal,
-                        'municipio': municipio,
+                const SizedBox(
+                  height: 40,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      final user = await _auth.currentUser;
+                      if (user != null) {
+                        final data = {
+                          'fecha': FieldValue.serverTimestamp(),
+                          'puesto': puesto,
+                          'nombre': nombre,
+                          'aPaterno': aPaterno,
+                          'aMaterno': aMaterno,
+                          'telefono': telefono,
+                          'curp': curp,
+                          'calle': calle,
+                          'numero': numero,
+                          'colonia': colonia,
+                          'codigoPostal': codigoPostal,
+                          'municipio': municipio,
 
-                        // 'campo3': '',
-                      };
-                      await _firestore
-                          .collection('usuarios')
-                          .doc(user.uid)
-                          .collection('comiteVigilancia')
-                          .add(data);
-                      // .get();
-                      //   .update(
-                      // {
-                      //   'escuela': FieldValue.arrayUnion([data])
-                      // },
-                      // );
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                            builder: (_) => const ComiteVigilanciaPage()),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Formulario agregado correctamente'),
-                        ),
-                      );
+                          // 'campo3': '',
+                        };
+                        await _firestore
+                            .collection('usuarios')
+                            .doc(user.uid)
+                            .collection('comiteVigilancia')
+                            .add(data);
+                        // .get();
+                        //   .update(
+                        // {
+                        //   'escuela': FieldValue.arrayUnion([data])
+                        // },
+                        // );
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (_) => const ComiteVigilanciaPage()),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Formulario agregado correctamente'),
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      print(e);
                     }
-                  } catch (e) {
-                    print(e);
-                  }
-                },
-                child: const Text('Agregar usuario'),
-              ),
-            ],
+                  },
+                  child: const Text('Agregar usuario'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xff59554e),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
