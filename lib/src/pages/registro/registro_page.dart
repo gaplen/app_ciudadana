@@ -118,12 +118,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Registro'),
-      // ),
       body: Container(
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xffa1c1be), Color(0xff9ec4bb), Color(0xffeed7c5)],
             begin: Alignment.topCenter,
@@ -140,7 +137,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     height: 100,
                   ),
                 ),
-                Text('Registrarse'),
+                const Text(
+                  'Registrarse',
+                  style: TextStyle(fontSize: 25, color: Colors.white),
+                ),
                 Container(
                   height: 50,
                 ),
@@ -282,24 +282,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     primary: const Color(0xff59554e),
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Add registration functionality here
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                          builder: (_) => LoginScreen(
-                                userID: '',
-                              )),
-                    );
-                  },
-                  child: Text(
-                    'Ya tienes cuenta? Ingresa',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff59554e),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Ya tienes cuenta?'),
+                    TextButton(
+                      onPressed: () {
+                        // Add registration functionality here
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (_) => const LoginScreen(
+                                    userID: '',
+                                  )),
+                        );
+                      },
+                      child: const Text(
+                        'Ingresar',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff59554e),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 // TextButton(
                 //   onPressed: () async {

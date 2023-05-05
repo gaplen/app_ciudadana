@@ -15,7 +15,7 @@ class _FichaOptionsPageState extends State<FichaOptionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ficha page'),
+        title: Text('Ficha tenica del inmueble'),
         backgroundColor: Color(0xff59554e),
       ),
       body: Column(
@@ -41,7 +41,7 @@ class _FichaOptionsPageState extends State<FichaOptionsPage> {
                               ),
                             );
                           },
-                          child: const Text('Nuevo ctt'),
+                          child: const Text('Nuevo CTT'),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
                               Color(0xff59554e),

@@ -1,11 +1,20 @@
+import 'dart:developer';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:app_ciudadana/src/pages/modulos/escuelas_page.dart';
+import 'package:app_ciudadana/src/utils/internet_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:signature/signature.dart';
+import 'dart:ui';
+
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class RegistroEscuela extends StatefulWidget {
   const RegistroEscuela({super.key});
@@ -14,7 +23,13 @@ class RegistroEscuela extends StatefulWidget {
   _RegistroEscuelaState createState() => _RegistroEscuelaState();
 }
 
+Uint8List? image;
+// Color inicial del botón
+
 class _RegistroEscuelaState extends State<RegistroEscuela> {
+  bool isSignatureEnabled = true;
+  bool _isButtonEnabled = true; // Estado inicial del botón
+  Color _buttonColor = Colors.green; //
   final _formKey = GlobalKey<FormState>();
   final _dateFormat = DateFormat('dd/MM/yyyy');
   DateTime _selectedDate = DateTime.now();
@@ -36,6 +51,14 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
 
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
+  final GlobalKey<SfSignaturePadState> _signaturePadKey =
+      GlobalKey<SfSignaturePadState>();
+
+  final SignatureController _controller = SignatureController(
+    penStrokeWidth: 1,
+    penColor: Colors.black,
+    exportBackgroundColor: Colors.white10,
+  );
 
   List<String> niveles = [
     'Preescolar',
@@ -59,10 +82,6 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
 
   @override
   Widget build(BuildContext context) {
-    SignatureController _controller = SignatureController(
-      penStrokeWidth: 5,
-      penColor: Colors.black,
-    );
     final currentDate = DateTime.now();
     final currentDateString = _dateFormat.format(currentDate);
     return Scaffold(
@@ -79,11 +98,11 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
-            child: ListView(
+            child: Column(
               children: [
                 Text('Fecha: $currentDateString',
                     style: const TextStyle(fontSize: 16)),
@@ -104,12 +123,6 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                       ),
                     ),
                     keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu CTT';
-                      }
-                      return null;
-                    },
                     onChanged: (value) {
                       ctt = value;
                     },
@@ -144,6 +157,12 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                   padding:
                       const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: DropdownButtonFormField<String>(
+                    validator: (value) {
+                      // if (value == null || value.isEmpty) {
+                      //   return 'Por favor, selecciona el nivel escolar';
+                      // }
+                      // return null;
+                    },
                     value: nivel,
                     items: niveles.map((String value) {
                       return DropdownMenuItem<String>(
@@ -330,23 +349,16 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: const Text(
-                    'Ingrese su firma',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                  child: Signature(
-                    controller: _controller,
-                    height: 300,
-                    backgroundColor: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 30),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 15.0),
+                //   child: const Text(
+                //     'Ingrese su firma',
+                //     style: TextStyle(fontSize: 15),
+                //   ),
+                // ),
+
+                // _signature(Colors.white),
+                // const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -367,28 +379,22 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                             'nombreContacto': nombreContacto,
                             'correoElectronico': correoElectronico,
                             'telefono': telefono,
-
-                            // 'campo3': '',
                           };
                           await _firestore
                               .collection('usuarios')
                               .doc(user.uid)
                               .collection('escuelas')
                               .add(data);
-
                           final data2 = {
                             'nombreContacto': nombreContacto,
                             'correoElectronico': correoElectronico,
                             'telefono': telefono,
-
-                            // 'campo3': '',
                           };
                           await _firestore
                               .collection('usuarios')
                               .doc(user.uid)
                               .collection('contactos')
                               .add(data2);
-
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                                 builder: (_) => const EscuelasScreen()),
@@ -399,8 +405,6 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                                   Text('Formulario agregado correctamente'),
                             ),
                           );
-
-                          // final signature = await _controller.toPngBytes();
                         }
                       } catch (e) {
                         print(e);
@@ -412,6 +416,85 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Color(0xff59554e))),
                 ),
+                // ElevatedButton(
+                //   onPressed: () async {
+                //     if (_formKey.currentState!.validate()) {
+                //       if (_controller.isEmpty) {
+                //         final imageRaw = await _controller.toPngBytes();
+                //         if (imageRaw != null) {
+                //           image = imageRaw;
+                //         }
+                //         Utils.showTopSnackBar(
+                //           context,
+                //           'Agrega una firma',
+                //           Colors.green,
+                //         );
+                //       } else {
+                //         Utils.showTopSnackBar(
+                //           context,
+                //           'Firma agregada',
+                //           Colors.green,
+                //         );
+                //       }
+
+                //       try {
+                //         final user = await _auth.currentUser;
+                //         if (user != null) {
+                //           final data = {
+                //             'fecha': FieldValue.serverTimestamp(),
+                //             'ctt': ctt,
+                //             'nombreEscuela': nombreEscuela,
+                //             'nivel': nivel,
+                //             'turno': turno,
+                //             'calle': calle,
+                //             'numero': numero,
+                //             'colonia': colonia,
+                //             'municipio': municipio,
+                //             'codigoPostal': codigoPostal,
+                //             'nombreContacto': nombreContacto,
+                //             'correoElectronico': correoElectronico,
+                //             'telefono': telefono,
+                //           };
+                //           await _firestore
+                //               .collection('usuarios')
+                //               .doc(user.uid)
+                //               .collection('escuelas')
+                //               .add(data);
+                //           final data2 = {
+                //             'nombreContacto': nombreContacto,
+                //             'correoElectronico': correoElectronico,
+                //             'telefono': telefono,
+                //           };
+                //           await _firestore
+                //               .collection('usuarios')
+                //               .doc(user.uid)
+                //               .collection('contactos')
+                //               .add(data2);
+                //           Navigator.of(context).pushReplacement(
+                //             MaterialPageRoute(
+                //               builder: (_) => const EscuelasScreen(),
+                //             ),
+                //           );
+                //           ScaffoldMessenger.of(context).showSnackBar(
+                //             const SnackBar(
+                //               content:
+                //                   Text('Formulario agregado correctamente'),
+                //             ),
+                //           );
+                //         }
+                //       } catch (e) {
+                //         print(e);
+                //       }
+                //     }
+                //   },
+                //   child: const Text('Agregar escuela'),
+                //   style: ButtonStyle(
+                //     backgroundColor: MaterialStateProperty.all<Color>(
+                //       Color(0xff59554e),
+                //     ),
+                //   ),
+                // ),
+                const SizedBox(height: 30),
               ],
             ),
           ),
@@ -420,15 +503,120 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
     );
   }
 
-  Future<void> _saveSignature(Uint8List signatureBytes) async {
-    try {
-      final user = _auth.currentUser;
-      if (user != null) {
-        final signatureRef = _firestore.collection('signatures').doc(user.uid);
-        await signatureRef.set({'signatureBytes': signatureBytes});
-      }
-    } catch (e) {
-      print(e);
-    }
+  Widget _signature(Color colorPrimario) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 20,
+          ),
+          _signatureCanvas(),
+          const SizedBox(
+            height: 20,
+          ),
+          _botonesSignature(colorPrimario)
+        ],
+      ),
+      //padding: EdgeInsets.only(right: 20),
+      margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
+      decoration: BoxDecoration(
+        //gradient: const Gradient(colors: Color.fromRGBO(58, 135, 205, 0.9)),
+        //color: const Color(0xFF333366),
+        color: colorPrimario,
+        //color: const Color(0x99ccff),
+        shape: BoxShape.rectangle,
+
+        borderRadius: BorderRadius.circular(30.0),
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10.0,
+            offset: Offset(15.0, 20.0),
+          ),
+        ],
+      ),
+    );
   }
+
+  Widget _botonesSignature(Color colorPrimario) {
+    return Container(
+      decoration: BoxDecoration(color: colorPrimario),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          //SHOW EXPORTED IMAGE IN NEW ROUTE
+
+          //CLEAR CANVAS
+          FloatingActionButton.extended(
+            heroTag: 'btn3',
+            backgroundColor: Colors.red[600],
+            foregroundColor: Colors.white,
+            extendedIconLabelSpacing: 10,
+            extendedPadding: const EdgeInsets.all(15),
+            label: const Text('Borrar'),
+            icon: const Icon(Icons.restore_from_trash_rounded),
+            onPressed: () {
+              setState(() => _controller.clear());
+              setState(() {
+                _isButtonEnabled = true;
+                _buttonColor = Colors.green;
+              });
+              image = null;
+            },
+          ),
+          FloatingActionButton.extended(
+            heroTag: 'btn4',
+            backgroundColor: _buttonColor,
+            foregroundColor: Colors.white,
+            extendedIconLabelSpacing: 10,
+            extendedPadding: const EdgeInsets.all(15),
+            label: const Text('Guardar'),
+            icon: const Icon(Icons.save),
+            onPressed: _isButtonEnabled
+                ? () async {
+                    if (_controller.isNotEmpty) {
+                      final imageRaw = await _controller.toPngBytes();
+                      if (imageRaw != null) {
+                        image = imageRaw;
+                        Utils.showTopSnackBar(
+                            context, 'Firma Guardada', Colors.green);
+                        setState(() {
+                          _isButtonEnabled = false;
+                          _buttonColor = Colors.grey;
+                          isSignatureEnabled = false;
+                        });
+                      }
+                    } else {
+                      Utils.showTopSnackBar(
+                          context, 'Genera una firma', Colors.red);
+                    }
+                  }
+                : null,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _signatureCanvas() {
+    return Signature(
+      controller: _controller,
+      height: 200,
+      width: 350,
+      backgroundColor: Colors.white60,
+    );
+  }
+
+  // Future<void> _saveSignature(Uint8List signatureBytes) async {
+  //   try {
+  //     final user = _auth.currentUser;
+  //     if (user != null) {
+  //       final signatureRef = _firestore.collection('signatures').doc(user.uid);
+  //       await signatureRef.set({'signatureBytes': signatureBytes});
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 }

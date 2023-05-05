@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'agendar_evento.dart';
-
 class AddEvent extends StatefulWidget {
   final DateTime firstDate;
   final DateTime lastDate;
@@ -37,24 +35,7 @@ class _AddEventState extends State<AddEvent> {
         title: const Text("Nuevo Evento"),
         backgroundColor: Colors.purple.shade200,
       ),
-      body:
-          // Column(
-          //   children: [
-          //     TextButton(onPressed: () {}, child: Text('ver')),
-          //     TextButton(onPressed: () {}, child: Text('Bitacora')),
-          //     TextButton(onPressed: () {}, child: Text('Especiales')),
-          //     // TextButton(onPressed: () {
-          //     //    Navigator.of(context).push(
-          //     //     MaterialPageRoute(
-          //     //       builder: (_) => AgendarEvento( firstDate: _firstDay,
-          //     //     lastDate: _lastDay,
-          //     //     selectedDate: _selectedDay,),
-          //     //     ),
-          //     //   );
-          //     // }, child: Text('Agendar')),
-          //   ],
-          // )
-          ListView(
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
           InputDatePickerFormField(
@@ -85,7 +66,7 @@ class _AddEventState extends State<AddEvent> {
             ),
             onPressed: () {
               _addEvent();
-              // Navigator.pop(context);
+              Navigator.pop(context);
             },
             child: const Text("Guardar"),
           ),
@@ -110,7 +91,8 @@ class _AddEventState extends State<AddEvent> {
         .add({
       "title": title,
       "description": description,
-      "date": Timestamp.fromDate(_selectedDate),
+      "date": _selectedDate.toUtc(),
+      // Timestamp.fromDate(_selectedDate),
     });
     if (mounted) {
       Navigator.pop<bool>(context, true);

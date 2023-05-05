@@ -3,6 +3,7 @@ import 'package:app_ciudadana/src/pages/login/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,43 +20,45 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      debugShowCheckedModeBanner: false,
-      title: 'Registro de usuarios',
-      home: StreamBuilder<User?>(
-        stream: _auth.authStateChanges(),
-        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else {
-            if (snapshot.hasData) {
-              // Usuario autenticado
-              return HomeScreen();
+    return OverlaySupport(
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        debugShowCheckedModeBanner: false,
+        title: 'Registro de usuarios',
+        home: StreamBuilder<User?>(
+          stream: _auth.authStateChanges(),
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
             } else {
-              // Usuario no autenticado
-              return LoginScreen(
-                userID: '',
-              );
+              if (snapshot.hasData) {
+                // Usuario autenticado
+                return HomeScreen();
+              } else {
+                // Usuario no autenticado
+                return LoginScreen(
+                  userID: '',
+                );
+              }
             }
-          }
-        },
+          },
+        ),
+
+        // LoginScreen(
+        //   userID: '',
+        // ),
+        // routes: {
+        //   '/login': (context) => LoginScreen(
+        //         userID: '',
+        //       ),
+        //   // '/registro': (context) => RegistroScreen(),
+        // },
+
+        // RegistroScreen(),
       ),
-
-      // LoginScreen(
-      //   userID: '',
-      // ),
-      // routes: {
-      //   '/login': (context) => LoginScreen(
-      //         userID: '',
-      //       ),
-      //   // '/registro': (context) => RegistroScreen(),
-      // },
-
-      // RegistroScreen(),
     );
   }
 }

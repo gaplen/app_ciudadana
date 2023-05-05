@@ -24,10 +24,14 @@ class _EditVigilanciaScreenState extends State<EditVigilanciaScreen> {
   @override
   void initState() {
     super.initState();
-    _puestoController.text = widget.data['puesto'];
-    _nombreController.text = widget.data['nombre'];
+    _puestoController.text =
+        widget.data['puesto'] != null ? widget.data['puesto'] : 'No hay puesto';
+    _nombreController.text =
+        widget.data['nombre'] != null ? widget.data['nombre'] : 'No hay nombre';
     // _nombreContactoController.text = widget.data['nombreContacto'];
-    _telefonoController.text = widget.data['telefono'];
+    _telefonoController.text = widget.data['telefono'] != null
+        ? widget.data['telefono']
+        : 'No hay telefono';
   }
 
   @override

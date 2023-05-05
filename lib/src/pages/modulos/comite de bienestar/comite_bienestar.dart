@@ -1,10 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:app_ciudadana/src/pages/modulos/comite%20de%20bienestar/comite_bienestar_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/comite%20de%20bienestar/comite_edit_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/escuelas_page.dart';
+import 'package:app_ciudadana/src/utils/internet_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:signature/signature.dart';
 
 class RegistroComiteBienestar extends StatefulWidget {
   const RegistroComiteBienestar({super.key});
@@ -14,7 +18,16 @@ class RegistroComiteBienestar extends StatefulWidget {
       _RegistroComiteBienestarState();
 }
 
+Uint8List? image;
+
 class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
+  bool isSignatureEnabled = true;
+  bool _isButtonEnabled = true; // Estado inicial del botón
+  Color _buttonColor = Colors.green; //
+  final SignatureController _controller = SignatureController(
+      penStrokeWidth: 1,
+      penColor: Colors.black,
+      exportBackgroundColor: Colors.white10);
   final _formKey = GlobalKey<FormState>();
 
   String? puesto;
@@ -55,11 +68,11 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
-            child: ListView(
+            child: Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
@@ -75,12 +88,6 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                       ),
                     ),
                     keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
-                      }
-                      return null;
-                    },
                     onChanged: (value) {
                       puesto = value;
                     },
@@ -127,7 +134,7 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
+                        return 'Por favor, introduce tu apellido paterno';
                       }
                       return null;
                     },
@@ -152,7 +159,7 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
+                        return 'Por favor, introduce tu apellido materno';
                       }
                       return null;
                     },
@@ -165,6 +172,7 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                   padding: const EdgeInsets.only(
                       left: 10, right: 10, top: 10, bottom: 10),
                   child: TextFormField(
+                    maxLength: 10,
                     decoration: InputDecoration(
                       hintText: 'Telefono',
                       fillColor: Colors.white,
@@ -174,13 +182,7 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
-                      }
-                      return null;
-                    },
+                    keyboardType: TextInputType.phone,
                     onChanged: (value) {
                       telefono = value;
                     },
@@ -191,7 +193,7 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                       left: 10, right: 10, top: 10, bottom: 10),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      hintText: 'Curp',
+                      hintText: 'CURP',
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
@@ -202,7 +204,10 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
+                        return 'Por favor, introduce tu CURP';
+                      }
+                      if (value.length < 18) {
+                        return 'Por favor, introduce un CURP valido';
                       }
                       return null;
                     },
@@ -225,12 +230,6 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                       ),
                     ),
                     keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
-                      }
-                      return null;
-                    },
                     onChanged: (value) {
                       calle = value;
                     },
@@ -250,12 +249,6 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                       ),
                     ),
                     keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
-                      }
-                      return null;
-                    },
                     onChanged: (value) {
                       numero = value;
                     },
@@ -275,12 +268,6 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                       ),
                     ),
                     keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
-                      }
-                      return null;
-                    },
                     onChanged: (value) {
                       colonia = value;
                     },
@@ -299,13 +286,7 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
-                      }
-                      return null;
-                    },
+                    keyboardType: TextInputType.number,
                     onChanged: (value) {
                       codigoPostal = value;
                     },
@@ -325,62 +306,67 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                       ),
                     ),
                     keyboardType: TextInputType.text,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu puesto';
-                      }
-                      return null;
-                    },
                     onChanged: (value) {
                       municipio = value;
                     },
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: const Text(
+                    'Ingrese su firma',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                _signature(Colors.white),
                 const SizedBox(
                   height: 40,
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    try {
-                      final user = await _auth.currentUser;
-                      if (user != null) {
-                        final data = {
-                          'fecha': FieldValue.serverTimestamp(),
-                          'puesto': puesto,
-                          'nombre': nombre,
-                          'aPaterno': aPaterno,
-                          'aMaterno': aMaterno,
-                          'telefono': telefono,
-                          'curp': curp,
-                          'calle': calle,
-                          'numero': numero,
-                          'colonia': colonia,
-                          'codigoPostal': codigoPostal,
-                          'municipio': municipio,
-                        };
-                        await _firestore
-                            .collection('usuarios')
-                            .doc(user.uid)
-                            .collection('comiteBienestar')
-                            .add(data);
-                        // .get();
-                        //   .update(
-                        // {
-                        //   'escuela': FieldValue.arrayUnion([data])
-                        // },
-                        // );
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                              builder: (_) => const ComiteBienestarPage()),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Formulario agregado correctamente'),
-                          ),
-                        );
+                    if (_formKey.currentState!.validate()) {
+                      try {
+                        final user = await _auth.currentUser;
+                        if (user != null) {
+                          final data = {
+                            'fecha': FieldValue.serverTimestamp(),
+                            'puesto': puesto,
+                            'nombre': nombre,
+                            'aPaterno': aPaterno,
+                            'aMaterno': aMaterno,
+                            'telefono': telefono,
+                            'curp': curp,
+                            'calle': calle,
+                            'numero': numero,
+                            'colonia': colonia,
+                            'codigoPostal': codigoPostal,
+                            'municipio': municipio,
+                          };
+                          await _firestore
+                              .collection('usuarios')
+                              .doc(user.uid)
+                              .collection('comiteBienestar')
+                              .add(data);
+                          // .get();
+                          //   .update(
+                          // {
+                          //   'escuela': FieldValue.arrayUnion([data])
+                          // },
+                          // );
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (_) => const ComiteBienestarPage()),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Formulario agregado correctamente'),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        print(e);
                       }
-                    } catch (e) {
-                      print(e);
                     }
                   },
                   child: const Text('Agregar usuario'),
@@ -396,6 +382,111 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _signature(Color colorPrimario) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 20,
+          ),
+          _signatureCanvas(),
+          const SizedBox(
+            height: 20,
+          ),
+          _botonesSignature(colorPrimario)
+        ],
+      ),
+      //padding: EdgeInsets.only(right: 20),
+      margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
+      decoration: BoxDecoration(
+        //gradient: const Gradient(colors: Color.fromRGBO(58, 135, 205, 0.9)),
+        //color: const Color(0xFF333366),
+        color: colorPrimario,
+        //color: const Color(0x99ccff),
+        shape: BoxShape.rectangle,
+
+        borderRadius: BorderRadius.circular(30.0),
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10.0,
+            offset: Offset(15.0, 20.0),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _botonesSignature(Color colorPrimario) {
+    return Container(
+      decoration: BoxDecoration(color: colorPrimario),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          //SHOW EXPORTED IMAGE IN NEW ROUTE
+
+          //CLEAR CANVAS
+          FloatingActionButton.extended(
+            heroTag: 'btn3',
+            backgroundColor: Colors.red[600],
+            foregroundColor: Colors.white,
+            extendedIconLabelSpacing: 10,
+            extendedPadding: const EdgeInsets.all(15),
+            label: const Text('Borrar'),
+            icon: const Icon(Icons.restore_from_trash_rounded),
+            onPressed: () {
+              setState(() => _controller.clear());
+              setState(() {
+                _isButtonEnabled = true;
+                _buttonColor = Colors.green;
+              });
+              image = null;
+            },
+          ),
+          FloatingActionButton.extended(
+            heroTag: 'btn4',
+            backgroundColor: _buttonColor,
+            foregroundColor: Colors.white,
+            extendedIconLabelSpacing: 10,
+            extendedPadding: const EdgeInsets.all(15),
+            label: const Text('Guardar'),
+            icon: const Icon(Icons.save),
+            onPressed: _isButtonEnabled
+                ? () async {
+                    if (_controller.isNotEmpty) {
+                      final imageRaw = await _controller.toPngBytes();
+                      if (imageRaw != null) {
+                        image = imageRaw;
+                        Utils.showTopSnackBar(
+                            context, 'Firma Guardada', Colors.green);
+                        setState(() {
+                          _isButtonEnabled = false;
+                          _buttonColor = Colors.grey;
+                          isSignatureEnabled = false;
+                        });
+                      }
+                    } else {
+                      Utils.showTopSnackBar(
+                          context, 'Genera una firma', Colors.red);
+                    }
+                  }
+                : null,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _signatureCanvas() {
+    return Signature(
+      controller: _controller,
+      height: 200,
+      width: 350,
+      backgroundColor: Colors.white60,
     );
   }
 }

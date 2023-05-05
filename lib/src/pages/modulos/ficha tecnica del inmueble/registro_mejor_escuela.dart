@@ -29,63 +29,101 @@ class _MejorEscuelaRegistroState extends State<MejorEscuelaRegistro> {
         title: const Text('Mejor escuela'),
         backgroundColor: Color(0xff59554e),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {
-                  anio = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Introduzca el año',
+      body: Container(
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xffa1c1be), Color(0xff9ec4bb), Color(0xffeed7c5)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) {
+                      anio = value;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Introduzca el año',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              TextField(
-                maxLines: 10,
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {
-                  descripcion = value;
-                },
-                decoration: const InputDecoration(
-                  hintText: 'descripcion',
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: TextField(
+                    maxLines: 10,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) {
+                      descripcion = value;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Descripcion',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  try {
-                    final user = await _auth.currentUser;
-                    if (user != null) {
-                      final data = {
-                        'anio': anio,
-                        'descripcion': descripcion,
-                      };
-                      await _firestore
-                          .collection('usuarios')
-                          .doc(user.uid)
-                          .collection('mejorEscuela')
-                          .add(data);
-                      Navigator.pop(context);
+                const SizedBox(
+                  height: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 10, bottom: 10),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        final user = await _auth.currentUser;
+                        if (user != null) {
+                          final data = {
+                            'anio': anio,
+                            'descripcion': descripcion,
+                          };
+                          await _firestore
+                              .collection('usuarios')
+                              .doc(user.uid)
+                              .collection('mejorEscuela')
+                              .add(data);
+                          Navigator.pop(context);
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Formulario agregado correctamente'),
-                        ),
-                      );
-                    }
-                  } catch (e) {
-                    print(e);
-                  }
-                },
-                child: const Text('Agregar usuario'),
-              ),
-            ],
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Formulario agregado correctamente'),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                    child: const Text('Agregar usuario'),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xff59554e))),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

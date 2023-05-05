@@ -193,7 +193,7 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Fecha    : ${_dateFormat.format(date)}',
+                                            'Fecha    : ${_dateFormat.format(date) != null ? _dateFormat.format(date) : currentDateString}',
                                             // data['nombreEscuela'].toString(),
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w700,
@@ -201,14 +201,14 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
                                             ),
                                           ),
                                           Text(
-                                            'Titulo  : ${data['title']}',
+                                            'Titulo  : ${data['title'] != null ? data['title'] : 'No hay titulo'}',
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 14,
                                             ),
                                           ),
                                           Text(
-                                            'Descripcion: ${data['description']}',
+                                            'Descripcion: ${data['description'] != null ? data['description'] : 'No hay descripcion'}',
                                             style: const TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 14,
@@ -255,3 +255,14 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
     );
   }
 }
+
+// import 'package:flutter/material.dart';
+
+// class BitacoraScreen extends StatelessWidget {
+//   const BitacoraScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }

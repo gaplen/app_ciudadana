@@ -320,6 +320,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.16"
+  image_gallery_saver:
+    dependency: "direct main"
+    description:
+      name: image_gallery_saver
+      sha256: be812580c7a320d3bf583af89cac6b376f170d48000aca75215a73285a3223a0
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.7.1"
   intl:
     dependency: transitive
     description:
@@ -368,6 +376,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  overlay_support:
+    dependency: "direct main"
+    description:
+      name: overlay_support
+      sha256: bde0a217184498b1e9a62ec4e2a22a56b5f724ec414fb2f9d798f1da26880760
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   path:
     dependency: transitive
     description:
@@ -384,6 +400,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  path_provider:
+    dependency: "direct main"
+    description:
+      name: path_provider
+      sha256: c7edf82217d4b2952b2129a61d3ad60f1075b9299e629e149a8d2e39c2e6aad4
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.14"
+  path_provider_android:
+    dependency: transitive
+    description:
+      name: path_provider_android
+      sha256: "2cec049d282c7f13c594b4a73976b0b4f2d7a1838a6dd5aaf7bd9719196bee86"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.27"
+  path_provider_foundation:
+    dependency: transitive
+    description:
+      name: path_provider_foundation
+      sha256: ad4c4d011830462633f03eb34445a45345673dfd4faf1ab0b4735fbd93b19183
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   path_provider_linux:
     dependency: transitive
     description:
@@ -602,6 +642,14 @@ packages:
     description:
       name: syncfusion_flutter_datepicker
       sha256: ff428c4e2ebd753c2f8f3b2aa60e96e014c9ca2653ce7007c7a603e560973f34
+      url: "https://pub.dev"
+    source: hosted
+    version: "19.4.56"
+  syncfusion_flutter_signaturepad:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_signaturepad
+      sha256: d57f256c5e5347eeb557333f328ab1cc2d9059dff694287166f5692b18f68118
       url: "https://pub.dev"
     source: hosted
     version: "19.4.56"

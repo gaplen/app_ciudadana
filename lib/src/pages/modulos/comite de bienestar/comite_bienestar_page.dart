@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:app_ciudadana/src/pages/modulos/comite%20de%20bienestar/comite_edit_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:signature/signature.dart';
 
 import 'comite_bienestar.dart';
 
@@ -12,7 +15,16 @@ class ComiteBienestarPage extends StatefulWidget {
   State<ComiteBienestarPage> createState() => _ComiteBienestarPageState();
 }
 
+Uint8List? image;
+
 class _ComiteBienestarPageState extends State<ComiteBienestarPage> {
+  bool isSignatureEnabled = true;
+  bool _isButtonEnabled = true; // Estado inicial del botón
+  Color _buttonColor = Colors.green; //
+  final SignatureController _controller = SignatureController(
+      penStrokeWidth: 1,
+      penColor: Colors.black,
+      exportBackgroundColor: Colors.white10);
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _searchController = TextEditingController();
 

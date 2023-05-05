@@ -160,7 +160,9 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
                                                 0.5,
                                         // color: Colors.red,
                                         child: Text(
-                                          'Escuela  : ${data['nombreEscuela']}',
+                                          'Escuela  : ${data['nombreEscuela'] != null ? data['nombreEscuela'] : ''}',
+
+                                          // 'Escuela  : ${data['nombreEscuela']}',
                                           overflow: TextOverflow.ellipsis,
                                           // data['nombreEscuela'].toString(),
                                           style: const TextStyle(
@@ -170,7 +172,8 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'Nivel       : ${data['nivel']}',
+                                        'Nivel       : ${data['nivel'] != null ? data['nivel'] : 'No hay nivel'}',
+                                        // 'Nivel       : ${data['nivel']}',
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -178,7 +181,7 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
                                         ),
                                       ),
                                       Text(
-                                        'Telefono: ${data['telefono']}',
+                                        'Telefono: ${data['telefono'] != null ? data['telefono'] : 'No hay telefono'}',
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w700,

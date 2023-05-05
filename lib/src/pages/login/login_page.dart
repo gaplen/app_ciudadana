@@ -168,6 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // ),
 
               TextFormField(
+                obscureText: true,
                 controller: _passwordController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
@@ -232,21 +233,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   primary: const Color(0xff59554e),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  // Add registration functionality here
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => RegistrationScreen()),
-                  );
-                },
-                child: Text(
-                  'No tienes una cuenta? Register',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff59554e),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('No tienes una cuenta?'),
+                  TextButton(
+                    onPressed: () {
+                      // Add registration functionality here
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => RegistrationScreen()),
+                      );
+                    },
+                    child: Text(
+                      'Registrate',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff59554e),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
@@ -262,6 +270,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
       if (googleUser != null) {
         final GoogleSignInAuthentication googleAuth =
             await googleUser.authentication;
@@ -299,6 +308,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => HomeScreen()),
+        );
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Ocurrió un error al iniciar sesión con Google.'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } catch (error) {

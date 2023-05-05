@@ -27,9 +27,12 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
   void initState() {
     super.initState();
 
-    titleController.text = widget.data['title'];
-    descriptionController.text = widget.data['description'];
-    final lastDate = DateTime.now();
+    titleController.text =
+        widget.data['title'] != null ? widget.data['title'] : 'No hay titulo';
+    descriptionController.text = widget.data['description'] != null
+        ? widget.data['description']
+        : 'No hay descripcion';
+    final lastDate = DateTime.now() != null ? DateTime.now() : DateTime.now();
     // final date =
     //     DateTime.fromMillisecondsSinceEpoch(widget.data['date'].seconds * 1000);
     // _selectedDate = date.isAfter(lastDate) ? lastDate : date;

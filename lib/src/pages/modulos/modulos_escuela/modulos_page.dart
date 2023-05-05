@@ -19,7 +19,8 @@ class _ModulosScreenState extends State<ModulosScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff59554e),
-        title: const Text('modulos page'),
+        title: const Text('Módulos'),
+        centerTitle: true,
       ),
       body: Container(
         child: Center(

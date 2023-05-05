@@ -537,8 +537,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                           child: Column(
                                                             children: [
                                                               Text(
-                                                                data['nivel']
-                                                                    .toString(),
+                                                                data['nivel'] ??
+                                                                    '',
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         15,
@@ -549,8 +549,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                                             .bold),
                                                               ),
                                                               Text(
-                                                                data['numCTT']
-                                                                    .toString(),
+                                                                data['numCTT'] ??
+                                                                    '',
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         15,
@@ -584,8 +584,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                         SizedBox(width: 10),
                                                         Expanded(
                                                           child: Text(
-                                                            data['matricula']
-                                                                .toString(),
+                                                            data['matricula'] ??
+                                                                '',
                                                             style: TextStyle(
                                                                 fontSize: 15,
                                                                 color: Colors
@@ -621,8 +621,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                                         .only(
                                                                     right: 8.0),
                                                             child: Text(
-                                                              data['nombre']
-                                                                  .toString(),
+                                                              data['nombre'] ??
+                                                                  '',
                                                               style: TextStyle(
                                                                   fontSize: 15,
                                                                   color: Colors
@@ -654,8 +654,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                         SizedBox(width: 10),
                                                         Expanded(
                                                           child: Text(
-                                                            data['telefono']
-                                                                .toString(),
+                                                            data['telefono'] ??
+                                                                '',
                                                             style: TextStyle(
                                                                 fontSize: 15,
                                                                 color: Colors
@@ -767,7 +767,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                data['descripcion'].toString(),
+                                                data['descripcion'] ?? '',
                                               ),
                                             ),
                                           ),
@@ -944,10 +944,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 Text(
                                                   'Descripcion',
                                                 ),
-                                                Text(
-                                                  data['descripcion']
-                                                      .toString(),
-                                                ),
+                                                Text(data['descripcion'] ?? ''),
                                               ],
                                             ),
                                           ),
@@ -974,7 +971,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                   'Año',
                                                 ),
                                                 Text(
-                                                  data['anio'].toString(),
+                                                  data['anio'] ?? '',
                                                 ),
                                               ],
                                             ),
@@ -1191,7 +1188,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  data['nivel'].toString(),
+                                                  data['nivel'] ?? '',
                                                   style: TextStyle(
                                                       fontSize: 15,
                                                       color: Colors.black,
@@ -1199,7 +1196,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                           FontWeight.bold),
                                                 ),
                                                 Text(
-                                                  data['numCTT'].toString(),
+                                                  data['numCTT'] ?? '',
                                                   style: TextStyle(
                                                       fontSize: 15,
                                                       color: Colors.black,
@@ -1228,7 +1225,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                           SizedBox(width: 10),
                                           Expanded(
                                             child: Text(
-                                              data['matricula'].toString(),
+                                              data['matricula'] ?? '',
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.black,
@@ -1257,7 +1254,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                               padding: const EdgeInsets.only(
                                                   right: 8.0),
                                               child: Text(
-                                                data['nombre'].toString(),
+                                                data['nombre'] ?? '',
                                                 style: TextStyle(
                                                     fontSize: 15,
                                                     color: Colors.black,
@@ -1285,7 +1282,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                           SizedBox(width: 10),
                                           Expanded(
                                             child: Text(
-                                              data['telefono'].toString(),
+                                              data['telefono'] ?? '',
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.black,

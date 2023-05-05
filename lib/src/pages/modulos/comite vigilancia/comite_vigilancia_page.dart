@@ -163,7 +163,7 @@ class _ComiteVigilanciaPageState extends State<ComiteVigilanciaPage> {
                                                 0.5,
                                             // color: Colors.red,
                                             child: Text(
-                                              'Puesto    : ${data['puesto']}',
+                                              'Puesto    : ${data['puesto'] != null ? data['puesto'] : 'No hay puesto'}',
                                               // data['nombreEscuela'].toString(),
                                               style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
@@ -179,7 +179,7 @@ class _ComiteVigilanciaPageState extends State<ComiteVigilanciaPage> {
                                                 0.5,
                                             // color: Colors.red,
                                             child: Text(
-                                              'Nombre  : ${data['nombre']}',
+                                              'Nombre  : ${data['nombre'] != null ? data['nombre'] : 'No hay nombre'}',
                                               style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
                                                 fontWeight: FontWeight.w700,
@@ -194,7 +194,7 @@ class _ComiteVigilanciaPageState extends State<ComiteVigilanciaPage> {
                                                 0.5,
                                             // color: Colors.red,
                                             child: Text(
-                                              'Telefono: ${data['telefono']}',
+                                              'Telefono: ${data['telefono'] != null ? data['telefono'] : 'No hay telefono'}',
                                               style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
                                                 fontWeight: FontWeight.w700,

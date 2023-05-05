@@ -27,7 +27,7 @@
 
    <application
    
-        android:label="app_ciudadana"
+        android:label="Registro en Campo"
         android:name="${applicationName}"
         
         android:icon="@mipmap/ic_launcher">

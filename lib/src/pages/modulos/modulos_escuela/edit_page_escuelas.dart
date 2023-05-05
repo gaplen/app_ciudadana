@@ -26,10 +26,15 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
   @override
   void initState() {
     super.initState();
-    _nombreEscuelaController.text = widget.data['nombreEscuela'];
-    _nivelController.text = widget.data['nivel'];
+    _nombreEscuelaController.text = widget.data['nombreEscuela'] != null
+        ? widget.data['nombreEscuela']
+        : 'No hay nombre';
+    _nivelController.text =
+        widget.data['nivel'] != null ? widget.data['nivel'] : 'No hay nivel';
     // _nombreContactoController.text = widget.data['nombreContacto'];
-    _telefonoController.text = widget.data['telefono'];
+    _telefonoController.text = widget.data['telefono'] != null
+        ? widget.data['telefono']
+        : 'No hay telefono';
   }
 
   @override
@@ -39,20 +44,6 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
     // _nombreContactoController.dispose();
     _telefonoController.dispose();
     super.dispose();
-  }
-
-  void _updateData(String currentUser) async {
-    await FirebaseFirestore.instance
-        .collection('escuelas')
-        .doc(_auth.currentUser!.uid)
-        .update({
-      'nombreEscuela': _nombreEscuelaController.text,
-      'nivel': _nivelController.text,
-      // 'nombreContacto': _nombreContactoController.text,
-      'telefono': _telefonoController.text,
-    });
-
-    Navigator.pop(context);
   }
 
   @override
@@ -97,16 +88,6 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 15),
-                //   child: TextFormField(
-                //     controller: _nombreContactoController,
-                //     decoration: const InputDecoration(
-                //       labelText: "Nombre del contacto",
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
@@ -134,6 +115,21 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
                             'telefono': _telefonoController.text,
                           },
                         );
+                        FirebaseFirestore.instance
+                            .collection('usuarios')
+                            .doc(currentUser.uid)
+                            .collection('contactos')
+                            // .where('userId', isEqualTo: currentUser.uid)
+                            // .where('escuelaId', isEqualTo: widget.escuelaId)
+                            .get()
+                            .then((querySnapshot) {
+                          querySnapshot.docs.forEach((doc) {
+                            doc.reference.update({
+                              'telefono': _telefonoController.text,
+                            });
+                          });
+                        });
+
                         Navigator.pop(context);
                       }
                     },
