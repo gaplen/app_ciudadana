@@ -22,6 +22,7 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
 
   final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
   DateTime _selectedDate = DateTime.now();
+  DateTime day = DateTime.now();
 
   @override
   void initState() {
@@ -33,23 +34,22 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
         ? widget.data['description']
         : 'No hay descripcion';
     final lastDate = DateTime.now() != null ? DateTime.now() : DateTime.now();
-    // final date =
+    // DateTime _selectedDate =
     //     DateTime.fromMillisecondsSinceEpoch(widget.data['date'].seconds * 1000);
-    // _selectedDate = date.isAfter(lastDate) ? lastDate : date;
-    // _selectedDate =
+
     final date =
         DateTime.fromMillisecondsSinceEpoch(widget.data['date'].seconds * 1000);
+
+    _selectedDate = widget.data['date'] != null ? date : lastDate;
   }
 
   @override
   Widget build(BuildContext context) {
-    final date =
-        DateTime.fromMillisecondsSinceEpoch(widget.data['date'].seconds * 1000);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff59554e),
         title: const Text('Editar evento'),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -59,22 +59,37 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    _selectDate(context);
-                  },
-                  child: Row(
-                    children: [
-                      const Icon(Icons.date_range),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Fecha: ${dateFormat.format(date)}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 17,
-                        ),
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.height * 0.22,
+                    // height: 20,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1,
                       ),
-                    ],
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        _selectDate(context);
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(Icons.date_range),
+                          const SizedBox(width: 10),
+                          Text(
+                            // 'fecha $_selectedDate',
+
+                            'Fecha: ${dateFormat.format(_selectedDate)}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -97,7 +112,8 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
                   maxLines: 5,
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(
+                Center(
+                  child: ElevatedButton(
                     onPressed: () {
                       final currentUser = _auth.currentUser;
                       if (_formKey.currentState!.validate()) {
@@ -122,7 +138,9 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                           const Color(0xff8c6d62)),
-                    )),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -135,7 +153,9 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: dateFormat.parse(dateFormat.format(_selectedDate)),
-      firstDate: DateTime(1900),
+      //  dateFormat.parse(dateFormat.format(date)),
+
+      firstDate: day,
       // lastDate: DateTime.now(2100),
       lastDate: DateTime(2100),
     );
@@ -143,5 +163,12 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
       setState(() {
         _selectedDate = picked;
       });
+    final eventos = FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(_auth.currentUser!.uid)
+        .collection('events')
+        .where('date', isGreaterThanOrEqualTo: _selectedDate)
+        .where('date', isLessThanOrEqualTo: _selectedDate)
+        .get();
   }
 }

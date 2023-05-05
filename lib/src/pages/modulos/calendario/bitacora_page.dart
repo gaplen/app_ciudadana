@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class BitacoraScreen extends StatefulWidget {
-  const BitacoraScreen({super.key});
+  final QueryDocumentSnapshot<Map<String, dynamic>>? data;
+  final String? escuelaId;
+  const BitacoraScreen({super.key, this.data, this.escuelaId});
 
   @override
   State<BitacoraScreen> createState() => _BitacoraScreenState();
@@ -94,175 +96,160 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
           ),
         ],
       ),
-      //
-      // AppBar(
-      //   backgroundColor: Color(0xff59554e),
-      //   title: Padding(
-      //     padding: const EdgeInsets.only(right: 10),
-      //     child: TextField(
-      //       controller: _searchController,
-      //       decoration: const InputDecoration(
-      //         hintText: "Bitacora",
-      //         border: InputBorder.none,
-      //       ),
-      //       onChanged: (value) {
-      //         setState(() {
-      //           _searchText = value;
-      //         });
-      //       },
-      //     ),
-      //   ),
-      // ),
-
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xff59554e),
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => BitacoraAddPage()),
-          );
-        },
-      ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: _auth.currentUser != null
-            ? FirebaseFirestore.instance
-                .collection('usuarios')
-                .doc(_auth.currentUser!.uid)
-                .collection('events')
-                .where('title', isGreaterThanOrEqualTo: _searchText)
-                .where('title', isLessThanOrEqualTo: _searchText + '\uf8ff')
-                .snapshots()
-            : const Stream.empty(),
-        builder: (BuildContext context,
-            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(child: Text("Error"));
-          } else {
-            final docs = snapshot.data!.docs;
-            if (docs.isEmpty) {
-              return const Center(child: Text("No hay datos"));
+      body: Container(
+        // color: Colors.purple,
+        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: _auth.currentUser != null
+              ? FirebaseFirestore.instance
+                  .collection('usuarios')
+                  .doc(_auth.currentUser!.uid)
+                  .collection('events')
+                  .where('title', isGreaterThanOrEqualTo: _searchText)
+                  .where('title', isLessThanOrEqualTo: _searchText + '\uf8ff')
+                  .snapshots()
+              : const Stream.empty(),
+          builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text("Error"));
             } else {
-              return ListView.builder(
-                itemCount: docs.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final data = docs[index];
-                  DateTime date = DateTime.fromMillisecondsSinceEpoch(
-                      data['date'].seconds * 1000);
+              final docs = snapshot.data!.docs;
+              if (docs.isEmpty) {
+                return const Center(child: Text("No hay datos"));
+              } else {
+                return ListView.builder(
+                  itemCount: docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final data = docs[index];
+                    DateTime date = DateTime.fromMillisecondsSinceEpoch(
+                        data['date'].seconds * 1000);
 
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    return Column(
                       children: [
-                        Container(
-                          height: 130,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xffe2e3d9),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const SizedBox(width: 25),
-                                Row(
-                                  children: [
-                                    const Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 20, left: 12),
-                                      child: CircleAvatar(
-                                        backgroundColor: Color(0xff59554e),
-                                        radius: 35,
-                                        backgroundImage:
-                                            AssetImage('assets/calendar.png'),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15, left: 15),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 130,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(0xffe2e3d9),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(width: 25),
+                                      Row(
                                         children: [
-                                          Text(
-                                            'Fecha    : ${_dateFormat.format(date) != null ? _dateFormat.format(date) : currentDateString}',
-                                            // data['nombreEscuela'].toString(),
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14,
+                                          const Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 20, left: 12),
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  Color(0xff59554e),
+                                              radius: 35,
+                                              backgroundImage: AssetImage(
+                                                  'assets/calendar.png'),
                                             ),
                                           ),
-                                          Text(
-                                            'Titulo  : ${data['title'] != null ? data['title'] : 'No hay titulo'}',
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 15, left: 15),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Fecha: ${_dateFormat.format(date) != null ? _dateFormat.format(date) : currentDateString}',
+                                                  // data['nombreEscuela'].toString(),
+                                                  style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Titulo: ${data['title'] != null ? data['title'] : 'No hay titulo'}',
+                                                  style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  // color: Colors.red,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.25,
+                                                  child: Text(
+                                                    'Descripcion: ${data['description'] != null ? data['description'] : 'No hay descripcion'}',
+                                                    style: const TextStyle(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Text(
-                                            'Descripcion: ${data['description'] != null ? data['description'] : 'No hay descripcion'}',
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 0.0),
+                                            child: IconButton(
+                                              onPressed: () {
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        BitacoraEditPage(
+                                                      data: data,
+                                                      escuelaId: data.id,
+                                                    ),
+                                                    //     EditComiteBienestar(
+                                                    //   data: data,
+                                                    //   escuelaId: data.id,
+                                                    // ),
+                                                  ),
+                                                );
+                                              },
+                                              icon: const Icon(Icons.edit),
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 0.0),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (_) => BitacoraEditPage(
-                                                data: data,
-                                                escuelaId: data.id,
-                                              ),
-                                              //     EditComiteBienestar(
-                                              //   data: data,
-                                              //   escuelaId: data.id,
-                                              // ),
-                                            ),
-                                          );
-                                        },
-                                        icon: const Icon(Icons.edit),
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
-                    ),
-                  );
-                },
-              );
+                    );
+                  },
+                );
+              }
             }
-          }
-        },
+          },
+        ),
       ),
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-
-// class BitacoraScreen extends StatelessWidget {
-//   const BitacoraScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }

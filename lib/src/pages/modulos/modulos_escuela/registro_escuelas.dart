@@ -87,6 +87,7 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registro de Escuela'),
+        centerTitle: true,
         backgroundColor: Color(0xff59554e),
       ),
       body: Container(
@@ -243,7 +244,7 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                 Padding(
                   padding:
                       const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                  child: TextField(
+                  child: TextFormField(
                     onChanged: (value) {
                       numero = value;
                     },
@@ -280,6 +281,7 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                   padding:
                       const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: TextField(
+                    keyboardType: TextInputType.number,
                     onChanged: (value) {
                       codigoPostal = value;
                     },
@@ -333,11 +335,22 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                 Padding(
                   padding:
                       const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                  child: TextField(
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          value.length < 10 ||
+                          value.length > 10) {
+                        return 'Por favor, introduce un numero valido';
+                      }
+                      return null;
+                    },
                     onChanged: (value) {
                       telefono = value;
                     },
                     decoration: InputDecoration(
+                      hintMaxLines: 10,
                       hintText: 'Numero de telefono',
                       fillColor: Colors.white,
                       filled: true,

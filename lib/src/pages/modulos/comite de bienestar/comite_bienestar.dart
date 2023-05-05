@@ -423,60 +423,63 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
   Widget _botonesSignature(Color colorPrimario) {
     return Container(
       decoration: BoxDecoration(color: colorPrimario),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          //SHOW EXPORTED IMAGE IN NEW ROUTE
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 15.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            //SHOW EXPORTED IMAGE IN NEW ROUTE
 
-          //CLEAR CANVAS
-          FloatingActionButton.extended(
-            heroTag: 'btn3',
-            backgroundColor: Colors.red[600],
-            foregroundColor: Colors.white,
-            extendedIconLabelSpacing: 10,
-            extendedPadding: const EdgeInsets.all(15),
-            label: const Text('Borrar'),
-            icon: const Icon(Icons.restore_from_trash_rounded),
-            onPressed: () {
-              setState(() => _controller.clear());
-              setState(() {
-                _isButtonEnabled = true;
-                _buttonColor = Colors.green;
-              });
-              image = null;
-            },
-          ),
-          FloatingActionButton.extended(
-            heroTag: 'btn4',
-            backgroundColor: _buttonColor,
-            foregroundColor: Colors.white,
-            extendedIconLabelSpacing: 10,
-            extendedPadding: const EdgeInsets.all(15),
-            label: const Text('Guardar'),
-            icon: const Icon(Icons.save),
-            onPressed: _isButtonEnabled
-                ? () async {
-                    if (_controller.isNotEmpty) {
-                      final imageRaw = await _controller.toPngBytes();
-                      if (imageRaw != null) {
-                        image = imageRaw;
+            //CLEAR CANVAS
+            FloatingActionButton.extended(
+              heroTag: 'btn3',
+              backgroundColor: Colors.red[600],
+              foregroundColor: Colors.white,
+              extendedIconLabelSpacing: 10,
+              extendedPadding: const EdgeInsets.all(15),
+              label: const Text('Borrar'),
+              icon: const Icon(Icons.restore_from_trash_rounded),
+              onPressed: () {
+                setState(() => _controller.clear());
+                setState(() {
+                  _isButtonEnabled = true;
+                  _buttonColor = Colors.green;
+                });
+                image = null;
+              },
+            ),
+            FloatingActionButton.extended(
+              heroTag: 'btn4',
+              backgroundColor: _buttonColor,
+              foregroundColor: Colors.white,
+              extendedIconLabelSpacing: 10,
+              extendedPadding: const EdgeInsets.all(15),
+              label: const Text('Guardar'),
+              icon: const Icon(Icons.save),
+              onPressed: _isButtonEnabled
+                  ? () async {
+                      if (_controller.isNotEmpty) {
+                        final imageRaw = await _controller.toPngBytes();
+                        if (imageRaw != null) {
+                          image = imageRaw;
+                          Utils.showTopSnackBar(
+                              context, 'Firma Guardada', Colors.green);
+                          setState(() {
+                            _isButtonEnabled = false;
+                            _buttonColor = Colors.grey;
+                            isSignatureEnabled = false;
+                          });
+                        }
+                      } else {
                         Utils.showTopSnackBar(
-                            context, 'Firma Guardada', Colors.green);
-                        setState(() {
-                          _isButtonEnabled = false;
-                          _buttonColor = Colors.grey;
-                          isSignatureEnabled = false;
-                        });
+                            context, 'Genera una firma', Colors.red);
                       }
-                    } else {
-                      Utils.showTopSnackBar(
-                          context, 'Genera una firma', Colors.red);
                     }
-                  }
-                : null,
-          ),
-        ],
+                  : null,
+            ),
+          ],
+        ),
       ),
     );
   }
