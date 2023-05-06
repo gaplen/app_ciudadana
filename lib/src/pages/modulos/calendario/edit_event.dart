@@ -141,6 +141,7 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
                     ),
                   ),
                 ),
+                // ElevatedButton(onPressed: () {}, child: Text('Crear evento')),
               ],
             ),
           ),

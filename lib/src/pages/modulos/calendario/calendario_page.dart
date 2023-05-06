@@ -5,6 +5,7 @@ import 'package:app_ciudadana/src/pages/modulos/calendario/agendar_evento.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/bitacora_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/edit_event.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/editevent.dart';
+import 'package:app_ciudadana/src/widgets/my_drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,8 @@ class _CaledarioPageState extends State<CaledarioPage> {
         title: const Text('Mi Calendario'),
         backgroundColor: Colors.purple.shade200,
       ),
-      drawer: myDrawer(),
+      drawer: MyDrawer(),
+      // myDrawer(),
       body: ListView(
         children: [
           TableCalendar(
@@ -152,20 +154,6 @@ class _CaledarioPageState extends State<CaledarioPage> {
                   children: [
                     EventItem(
                         event: event,
-                        // onTap: () async {
-                        //   final res = await Navigator.push<bool>(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (_) => EditEvent(
-                        //           firstDate: _firstDay,
-                        //           lastDate: _lastDay,
-                        //           event: event),
-                        //     ),
-                        //   );
-                        //   if (res ?? false) {
-                        //     // _loadFirestoreEvents();
-                        //   }
-                        // },
                         onDelete: () async {
                           final delete = await showDialog<bool>(
                             context: context,
@@ -246,29 +234,6 @@ class _CaledarioPageState extends State<CaledarioPage> {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-          ),
-          ListTile(
-            title: Text('Ver'),
-            onTap: () {
-              // Acción cuando se selecciona "Ver"
-            },
-          ),
-          ListTile(
-            title: Text('Bitácora'),
-            onTap: () {
-              // Acción cuando se selecciona "Bitácora"
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const BitacoraScreen(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: Text('Especiales'),
-            onTap: () {
-              // Acción cuando se selecciona "Especiales"
-            },
           ),
         ],
       ),

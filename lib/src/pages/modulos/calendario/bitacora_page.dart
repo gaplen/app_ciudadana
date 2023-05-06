@@ -1,4 +1,5 @@
 import 'package:app_ciudadana/src/pages/modulos/calendario/bitacora_add_page.dart';
+import 'package:app_ciudadana/src/pages/modulos/calendario/calendario_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/edit_event.dart';
 import 'package:app_ciudadana/src/pages/modulos/comite%20de%20bienestar/comite_edit_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -95,6 +96,14 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => CaledarioPage()),
+          );
+        },
+        child: Icon(Icons.add),
       ),
       body: Container(
         // color: Colors.purple,
