@@ -50,6 +50,10 @@ dependencies:
   syncfusion_flutter_signaturepad:
   overlay_support: ^1.2.1
   path_provider: ^2.0.3
+  connectivity: ^3.0.6
+  fluttertoast:
+  # flutter_local_notifications: ^6.0.0
+  timezone: ^0.7.0
   # syncfusion_flutter_calendar: ^21.1.35
   syncfusion_flutter_calendar: ^19.1.59
 dev_dependencies:

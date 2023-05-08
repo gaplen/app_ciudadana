@@ -209,6 +209,19 @@ class _BitacoraAddPageState extends State<BitacoraAddPage> {
                     onPressed: () {
                       final currentUser = _auth.currentUser;
                       if (_formKey.currentState!.validate()) {
+                        Future.delayed(Duration(seconds: 5), () {
+                          CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Formulario agregado correctamente'),
+                            ),
+                          );
+                          Navigator.pop(
+                              context); // Cerrar el formulario después de 10 segundos
+                        });
                         // Guarda los nuevos datos de la escuela en la base de datos.
                         FirebaseFirestore.instance
                             .collection('usuarios')

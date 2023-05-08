@@ -35,10 +35,6 @@ class _CaledarioPageState extends State<CaledarioPage> {
   final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
   DateTime _selectedDate = DateTime.now();
 
-  // int getHashCode(DateTime key) {
-  //   return key.day * 1000000 + key.month * 10000 + key.year;
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -85,7 +81,7 @@ class _CaledarioPageState extends State<CaledarioPage> {
       _events[day]!.add(event);
     }
     setState(() {
-      // _selectedDay = _focusedDay;
+      _selectedDay = _focusedDay;
     });
   }
 
@@ -153,43 +149,43 @@ class _CaledarioPageState extends State<CaledarioPage> {
                 child: Column(
                   children: [
                     EventItem(
-                        event: event,
-                        onDelete: () async {
-                          final delete = await showDialog<bool>(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              title: const Text("Eliminar Eveto?"),
-                              content: const Text(
-                                  "Realmente quiere eliminar este evento?"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(context, false),
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: Colors.red,
-                                  ),
-                                  child: const Text("No"),
+                      event: event,
+                      onDelete: () async {
+                        final delete = await showDialog<bool>(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: const Text("Eliminar Eveto?"),
+                            content: const Text(
+                                "Realmente quiere eliminar este evento?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.red,
                                 ),
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, true),
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: Colors.green,
-                                  ),
-                                  child: const Text("Yes"),
+                                child: const Text("No"),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pop(context, true),
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.green,
                                 ),
-                              ],
-                            ),
-                          );
-                          if (delete ?? false) {
-                            await FirebaseFirestore.instance
-                                .collection('usuarios')
-                                .doc(_auth.currentUser!.uid)
-                                .collection('events')
-                                .doc(event.id)
-                                .delete();
-                            _loadFirestoreEvents();
-                          }
-                        }),
+                                child: const Text("Yes"),
+                              ),
+                            ],
+                          ),
+                        );
+                        if (delete ?? false) {
+                          await FirebaseFirestore.instance
+                              .collection('usuarios')
+                              .doc(_auth.currentUser!.uid)
+                              .collection('events')
+                              .doc(event.id)
+                              .delete();
+                          _loadFirestoreEvents();
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

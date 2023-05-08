@@ -29,11 +29,14 @@ class _AddEventState extends State<AddEvent> {
   final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
   DateTime _selectedDate = DateTime.now();
   DateTime day = DateTime.now();
+  DateTime _selectedTime = DateTime.now();
+  final DateFormat timeFormat = DateFormat('HH:mm');
 
   @override
   void initState() {
     super.initState();
     _selectedDate = widget.selectedDate ?? DateTime.now();
+    _selectedTime = timeFormat.parse(timeFormat.format(_selectedTime));
   }
 
   @override
@@ -46,8 +49,47 @@ class _AddEventState extends State<AddEvent> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
-          // padding: const EdgeInsets.all(16.0),
           children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 18),
+              child: Container(
+                width: MediaQuery.of(context).size.height * 0.20,
+                child: GestureDetector(
+                  onTap: () {
+                    _selectTime(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.purple.shade200,
+                        width: 5,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.access_time,
+                          color: Colors.purple.shade200,
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          'Hora: ${timeFormat.format(_selectedTime)}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
@@ -110,6 +152,11 @@ class _AddEventState extends State<AddEvent> {
               },
               child: const Text("Guardar"),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  // showNotificacion();
+                },
+                child: Text('Notificacion')),
           ],
         ),
       ),
@@ -120,9 +167,7 @@ class _AddEventState extends State<AddEvent> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: dateFormat.parse(dateFormat.format(_selectedDate)),
-      // dateFormat.parse(dateFormat.format(_selectedDate)),
       firstDate: dateFormat.parse(dateFormat.format(day)),
-      // lastDate: DateTime.now(2100),
       lastDate: DateTime(2100),
     );
     if (picked != null && picked != _selectedDate)
@@ -130,22 +175,44 @@ class _AddEventState extends State<AddEvent> {
         _selectedDate = picked;
       });
     final eventos = FirebaseFirestore.instance
-        // .collection('eventos')
-        // .where('fecha', isEqualTo: Timestamp.fromDate(_selectedDate))
-        // .snapshots();
         .collection('usuarios')
         .doc(_auth.currentUser!.uid)
         .collection('events')
         .where('date', isGreaterThanOrEqualTo: _selectedDate)
         .where('date', isLessThanOrEqualTo: _selectedDate)
-        // .withConverter(
-        //   fromFirestore: Event.fromFirestore,
-        //   toFirestore: (event, options) => event.toFirestore(),
-        // )
         .get();
   }
 
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_selectedTime),
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedTime = DateTime(
+          _selectedDate.year,
+          _selectedDate.month,
+          _selectedDate.day,
+          picked.hour,
+          picked.minute,
+        );
+      });
+    }
+  }
+
   void _addEvent() async {
+    Future.delayed(Duration(seconds: 5), () {
+      CircularProgressIndicator(
+        backgroundColor: Colors.white,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Formulario agregado correctamente'),
+        ),
+      );
+      Navigator.pop(context); // Cerrar el formulario después de 10 segundos
+    });
     final title = _titleController.text;
     final description = _descController.text;
     final currentUser = _auth.currentUser;
@@ -153,7 +220,7 @@ class _AddEventState extends State<AddEvent> {
       print('title cannot be empty');
       return;
     }
-    // final adjustedDate = _selectedDate.toLocal();
+
     await FirebaseFirestore.instance
         .collection('usuarios')
         .doc(currentUser!.uid)
@@ -161,10 +228,10 @@ class _AddEventState extends State<AddEvent> {
         .add({
       "title": title,
       "description": description,
-      // "date": _selectDate(context),
+      'time': Timestamp.fromDate(_selectedTime).toDate(),
       "date": dateFormat.parse(dateFormat.format(_selectedDate)),
-      // Timestamp.fromDate(_selectedDate).toDate(),
     });
+
     if (mounted) {
       Navigator.pop<bool>(context, true);
     }

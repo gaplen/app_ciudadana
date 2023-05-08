@@ -1,18 +1,11 @@
-import 'dart:developer';
-import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:app_ciudadana/src/pages/modulos/escuelas_page.dart';
 import 'package:app_ciudadana/src/utils/internet_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:signature/signature.dart';
-import 'dart:ui';
 
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
@@ -28,11 +21,12 @@ Uint8List? image;
 
 class _RegistroEscuelaState extends State<RegistroEscuela> {
   bool isSignatureEnabled = true;
-  bool _isButtonEnabled = true; // Estado inicial del botón
+  bool _isButtonEnabled = true;
   Color _buttonColor = Colors.green; //
   final _formKey = GlobalKey<FormState>();
   final _dateFormat = DateFormat('dd/MM/yyyy');
   DateTime _selectedDate = DateTime.now();
+
   String? ctt;
   String? nombreEscuela;
   String? nivel;
@@ -337,15 +331,15 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                       const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: TextFormField(
                     keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          value.length < 10 ||
-                          value.length > 10) {
-                        return 'Por favor, introduce un numero valido';
-                      }
-                      return null;
-                    },
+                    // validator: (value) {
+                    //   if (value == null ||
+                    //       value.isEmpty ||
+                    //       value.length < 10 ||
+                    //       value.length > 10) {
+                    //     return 'Por favor, introduce un numero valido';
+                    //   }
+                    //   return null;
+                    // },
                     onChanged: (value) {
                       telefono = value;
                     },
@@ -378,6 +372,19 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                       try {
                         final user = await _auth.currentUser;
                         if (user != null) {
+                          Future.delayed(Duration(seconds: 5), () {
+                            CircularProgressIndicator(
+                              backgroundColor: Colors.white,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text('Formulario agregado correctamente'),
+                              ),
+                            );
+                            Navigator.pop(
+                                context); // Cerrar el formulario después de 10 segundos
+                          });
                           final data = {
                             'fecha': FieldValue.serverTimestamp(),
                             'ctt': ctt,
@@ -408,20 +415,25 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                               .doc(user.uid)
                               .collection('contactos')
                               .add(data2);
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (_) => const EscuelasScreen()),
-                          );
+                          Navigator.pop(context);
+                          // Navigator.of(context).pushReplacement(
+                          //   MaterialPageRoute(
+                          //       builder: (_) => const EscuelasScreen()),
+                          // );
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content:
                                   Text('Formulario agregado correctamente'),
                             ),
                           );
+                          Navigator.pop(context);
                         }
                       } catch (e) {
-                        print(e);
+                        Navigator.pop(context);
                       }
+                    } else {
+                      return Utils.showTopSnackBar(context,
+                          'Por favor, llena todos los campos', Colors.red);
                     }
                   },
                   child: const Text('Agregar escuela'),
@@ -429,84 +441,7 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Color(0xff59554e))),
                 ),
-                // ElevatedButton(
-                //   onPressed: () async {
-                //     if (_formKey.currentState!.validate()) {
-                //       if (_controller.isEmpty) {
-                //         final imageRaw = await _controller.toPngBytes();
-                //         if (imageRaw != null) {
-                //           image = imageRaw;
-                //         }
-                //         Utils.showTopSnackBar(
-                //           context,
-                //           'Agrega una firma',
-                //           Colors.green,
-                //         );
-                //       } else {
-                //         Utils.showTopSnackBar(
-                //           context,
-                //           'Firma agregada',
-                //           Colors.green,
-                //         );
-                //       }
 
-                //       try {
-                //         final user = await _auth.currentUser;
-                //         if (user != null) {
-                //           final data = {
-                //             'fecha': FieldValue.serverTimestamp(),
-                //             'ctt': ctt,
-                //             'nombreEscuela': nombreEscuela,
-                //             'nivel': nivel,
-                //             'turno': turno,
-                //             'calle': calle,
-                //             'numero': numero,
-                //             'colonia': colonia,
-                //             'municipio': municipio,
-                //             'codigoPostal': codigoPostal,
-                //             'nombreContacto': nombreContacto,
-                //             'correoElectronico': correoElectronico,
-                //             'telefono': telefono,
-                //           };
-                //           await _firestore
-                //               .collection('usuarios')
-                //               .doc(user.uid)
-                //               .collection('escuelas')
-                //               .add(data);
-                //           final data2 = {
-                //             'nombreContacto': nombreContacto,
-                //             'correoElectronico': correoElectronico,
-                //             'telefono': telefono,
-                //           };
-                //           await _firestore
-                //               .collection('usuarios')
-                //               .doc(user.uid)
-                //               .collection('contactos')
-                //               .add(data2);
-                //           Navigator.of(context).pushReplacement(
-                //             MaterialPageRoute(
-                //               builder: (_) => const EscuelasScreen(),
-                //             ),
-                //           );
-                //           ScaffoldMessenger.of(context).showSnackBar(
-                //             const SnackBar(
-                //               content:
-                //                   Text('Formulario agregado correctamente'),
-                //             ),
-                //           );
-                //         }
-                //       } catch (e) {
-                //         print(e);
-                //       }
-                //     }
-                //   },
-                //   child: const Text('Agregar escuela'),
-                //   style: ButtonStyle(
-                //     backgroundColor: MaterialStateProperty.all<Color>(
-                //       Color(0xff59554e),
-                //     ),
-                //   ),
-                // ),
                 const SizedBox(height: 30),
               ],
             ),
@@ -530,15 +465,10 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
           _botonesSignature(colorPrimario)
         ],
       ),
-      //padding: EdgeInsets.only(right: 20),
       margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10),
       decoration: BoxDecoration(
-        //gradient: const Gradient(colors: Color.fromRGBO(58, 135, 205, 0.9)),
-        //color: const Color(0xFF333366),
         color: colorPrimario,
-        //color: const Color(0x99ccff),
         shape: BoxShape.rectangle,
-
         borderRadius: BorderRadius.circular(30.0),
         boxShadow: const <BoxShadow>[
           BoxShadow(
@@ -620,16 +550,4 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
       backgroundColor: Colors.white60,
     );
   }
-
-  // Future<void> _saveSignature(Uint8List signatureBytes) async {
-  //   try {
-  //     final user = _auth.currentUser;
-  //     if (user != null) {
-  //       final signatureRef = _firestore.collection('signatures').doc(user.uid);
-  //       await signatureRef.set({'signatureBytes': signatureBytes});
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 }

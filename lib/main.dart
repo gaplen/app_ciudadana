@@ -1,5 +1,6 @@
 import 'package:app_ciudadana/src/home_page.dart';
 import 'package:app_ciudadana/src/pages/login/login_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,10 @@ import 'package:overlay_support/overlay_support.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+  );
 
   runApp(const MyApp());
 }
@@ -46,18 +51,6 @@ class MyApp extends StatelessWidget {
             }
           },
         ),
-
-        // LoginScreen(
-        //   userID: '',
-        // ),
-        // routes: {
-        //   '/login': (context) => LoginScreen(
-        //         userID: '',
-        //       ),
-        //   // '/registro': (context) => RegistroScreen(),
-        // },
-
-        // RegistroScreen(),
       ),
     );
   }

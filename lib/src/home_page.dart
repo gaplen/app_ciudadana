@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:app_ciudadana/src/pages/login/login_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/calendario_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/contactos/contactos_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/escuelas_page.dart';
 import 'package:app_ciudadana/src/widgets/my_drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +19,97 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
+  bool _hasInternetConnection = true;
+
+  Future<bool> _checkInternetConnection() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // _checkInternetConnection().then(
+    //   (value) {
+    //     setState(() {
+    //       _hasInternetConnection = value;
+    //       if (!_hasInternetConnection) {
+    //         ScaffoldMessenger.of(context).showSnackBar(
+    //           SnackBar(
+    //             backgroundColor: Colors.red,
+    //             content: Text('No hay conexión a internet.'),
+    //           ),
+    //         );
+    //       } else {
+    //         _hasInternetConnection = value;
+    //         if (_hasInternetConnection) {
+    //           ScaffoldMessenger.of(context).showSnackBar(
+    //             SnackBar(
+    //               backgroundColor: Colors.green,
+    //               content: Text('Tienes conexion a internet.'),
+    //             ),
+    //           );
+    //         }
+    //       }
+    //     });
+    //   },
+    // );
+    super.initState();
+    _checkInternetConnection().then((value) {
+      setState(() {
+        _hasInternetConnection = value;
+        if (!_hasInternetConnection) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text('No hay conexión a internet.'),
+            ),
+          );
+        } else {
+          _hasInternetConnection = value;
+          if (_hasInternetConnection) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.green,
+                content: Text('Tienes conexion a internet.'),
+              ),
+            );
+          }
+        }
+      });
+    });
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+
+  //   _checkInternetConnection().then((value) {
+  //     setState(() {
+  //       _hasInternetConnection = value;
+  //       if (!_hasInternetConnection) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(
+  //             backgroundColor: Colors.red,
+  //             content: Text('No hay conexión a internet.'),
+  //           ),
+  //         );
+  //       } else {
+  //         if (_hasInternetConnection) {
+  //           ScaffoldMessenger.of(context).showSnackBar(
+  //             SnackBar(
+  //               backgroundColor: Colors.green,
+  //               content: Text('Tienes conexion a internet.'),
+  //             ),
+  //           );
+  //         }
+  //       }
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +135,10 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // Center(
+                //   child:
+                //       Text('Has internet connection: $_hasInternetConnection'),
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -138,31 +236,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                // ElevatedButton(
-                //   onPressed: () async {
-                //     try {
-                //       final user = await _auth.currentUser;
-                //       if (user != null) {
-                //         final data = {
-                //           'campo1': '',
-                //           'campo2': '',
-                //           'campo3': '',
-                //         };
-                //         await _firestore.collection('usuarios').doc(user.uid).update({
-                //           'datos': FieldValue.arrayUnion([data])
-                //         });
-                //         ScaffoldMessenger.of(context).showSnackBar(
-                //           SnackBar(
-                //             content: Text('Formulario agregado correctamente'),
-                //           ),
-                //         );
-                //       }
-                //     } catch (e) {
-                //       print(e);
-                //     }
-                //   },
-                //   child: Text('Agregar formulario'),
-                // ),
               ],
             ),
           ),

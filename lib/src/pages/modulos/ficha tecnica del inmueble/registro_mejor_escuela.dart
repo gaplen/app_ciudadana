@@ -91,6 +91,18 @@ class _MejorEscuelaRegistroState extends State<MejorEscuelaRegistro> {
                       left: 10, right: 10, top: 10, bottom: 10),
                   child: ElevatedButton(
                     onPressed: () async {
+                      Future.delayed(Duration(seconds: 5), () {
+                        CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Formulario agregado correctamente'),
+                          ),
+                        );
+                        Navigator.pop(
+                            context); // Cerrar el formulario después de 10 segundos
+                      });
                       try {
                         final user = await _auth.currentUser;
                         if (user != null) {

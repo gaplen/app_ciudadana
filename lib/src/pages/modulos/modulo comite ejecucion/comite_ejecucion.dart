@@ -339,6 +339,19 @@ class _RegistroComitePageState extends State<RegistroComitePage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        Future.delayed(Duration(seconds: 5), () {
+                          CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                                  Text('Formulario agregado correctamente'),
+                            ),
+                          );
+                          Navigator.pop(
+                              context); // Cerrar el formulario después de 10 segundos
+                        });
                         try {
                           final user = await _auth.currentUser;
                           if (user != null) {
