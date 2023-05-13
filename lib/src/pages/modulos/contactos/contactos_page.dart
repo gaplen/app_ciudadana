@@ -47,33 +47,7 @@ class _ContactosPageState extends State<ContactosPage> {
                 )
               : Text("Contactos"),
         ),
-        actions: <Widget>[
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 18.0),
-          //   child: AnimatedSwitcher(
-          //     duration: Duration(milliseconds: 200),
-          //     child: _showSearchBar
-          //         ? IconButton(
-          //             icon: Icon(Icons.clear),
-          //             onPressed: () {
-          //               setState(() {
-          //                 _showSearchBar = false;
-          //                 _searchText = "";
-          //                 _searchController.clear();
-          //               });
-          //             },
-          //           )
-          //         : IconButton(
-          //             icon: Icon(Icons.search),
-          //             onPressed: () {
-          //               setState(() {
-          //                 _showSearchBar = true;
-          //               });
-          //             },
-          //           ),
-          //   ),
-          // ),
-        ],
+        actions: <Widget>[],
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _auth.currentUser != null
@@ -258,23 +232,5 @@ class _ContactosPageState extends State<ContactosPage> {
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
-  }
-}
-
-void enviarSms() async {
-  const url = "sms:86994324465?body=Olá, tudo bem?";
-  if (await canLaunchUrl(Uri.parse(url))) {
-    await launchUrl(Uri.parse(url));
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
-void abrirUrl() async {
-  const url = 'https://flutterando.com.br/';
-  if (await canLaunchUrl(Uri.parse(url))) {
-    await launchUrl(Uri.parse(url));
-  } else {
-    throw 'Could not launch $url';
   }
 }

@@ -39,6 +39,11 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
   String? nombreContacto;
   String? correoElectronico;
   String? telefono;
+  String? date;
+  String? description;
+  String? time;
+  String? title;
+  String? etiqueta;
 
 // final currentUser = _auth.currentUser!;
 // final userRef = _firestore.collection('users').doc(currentUser.uid);
@@ -356,35 +361,21 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 15.0),
-                //   child: const Text(
-                //     'Ingrese su firma',
-                //     style: TextStyle(fontSize: 15),
-                //   ),
-                // ),
-
-                // _signature(Colors.white),
-                // const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: const Text(
+                    'Ingrese su firma',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                _signature(Colors.white),
+                const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
                         final user = await _auth.currentUser;
                         if (user != null) {
-                          Future.delayed(Duration(seconds: 5), () {
-                            CircularProgressIndicator(
-                              backgroundColor: Colors.white,
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content:
-                                    Text('Formulario agregado correctamente'),
-                              ),
-                            );
-                            Navigator.pop(
-                                context); // Cerrar el formulario después de 10 segundos
-                          });
                           final data = {
                             'fecha': FieldValue.serverTimestamp(),
                             'ctt': ctt,
@@ -399,6 +390,11 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                             'nombreContacto': nombreContacto,
                             'correoElectronico': correoElectronico,
                             'telefono': telefono,
+                            'date': date,
+                            'description': description,
+                            'time': time,
+                            'title': title,
+                            'etiqueta': etiqueta,
                           };
                           await _firestore
                               .collection('usuarios')
@@ -441,7 +437,6 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Color(0xff59554e))),
                 ),
-
                 const SizedBox(height: 30),
               ],
             ),

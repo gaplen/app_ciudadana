@@ -1,4 +1,5 @@
 import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/edit_page_escuelas.dart';
+import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/opciones_escuela.dart';
 import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/modulos_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -120,96 +121,111 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Color(0xffe2e3d9),
-                            border: Border.all(color: Colors.black, width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const SizedBox(width: 25),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor: Color(0xff59554e),
-                                      backgroundImage:
-                                          AssetImage('assets/escuela.png'),
-                                      child: Container(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => OpcionesEscuela(
+                                    // data: data,
+                                    // escuelaId: data.id,
                                     ),
-                                  ),
-                                  Container(
-                                    height: 10,
-                                    width: 10,
-                                    // color: Colors.red,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.5,
-                                        // color: Colors.red,
-                                        child: Text(
-                                          'Escuela  : ${data['nombreEscuela'] != null ? data['nombreEscuela'] : ''}',
+                              ),
+                            );
+                          },
+                          child: Container(
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: Color(0xffe2e3d9),
+                              border: Border.all(color: Colors.black, width: 1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const SizedBox(width: 25),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Color(0xff59554e),
+                                        backgroundImage:
+                                            AssetImage('assets/escuela.png'),
+                                        child: Container(),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 10,
+                                      width: 10,
+                                      // color: Colors.red,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.5,
+                                          // color: Colors.red,
+                                          child: Text(
+                                            'Escuela  : ${data['nombreEscuela'] != null ? data['nombreEscuela'] : ''}',
 
-                                          // 'Escuela  : ${data['nombreEscuela']}',
+                                            // 'Escuela  : ${data['nombreEscuela']}',
+                                            overflow: TextOverflow.ellipsis,
+                                            // data['nombreEscuela'].toString(),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Nivel       : ${data['nivel'] != null ? data['nivel'] : 'No hay nivel'}',
+                                          // 'Nivel       : ${data['nivel']}',
                                           overflow: TextOverflow.ellipsis,
-                                          // data['nombreEscuela'].toString(),
                                           style: const TextStyle(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 14,
                                           ),
                                         ),
-                                      ),
-                                      Text(
-                                        'Nivel       : ${data['nivel'] != null ? data['nivel'] : 'No hay nivel'}',
-                                        // 'Nivel       : ${data['nivel']}',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Telefono: ${data['telefono'] != null ? data['telefono'] : 'No hay telefono'}',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 18.0),
-                                    child: IconButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (_) => EditEscuelaScreen(
-                                              data: data,
-                                              escuelaId: data.id,
-                                            ),
+                                        Text(
+                                          'Telefono: ${data['telefono'] != null ? data['telefono'] : 'No hay telefono'}',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 14,
                                           ),
-                                        );
-                                      },
-                                      icon: const Icon(Icons.edit),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    // Spacer(),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 18.0),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (_) => EditEscuelaScreen(
+                                                data: data,
+                                                escuelaId: data.id,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(Icons.edit),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         const SizedBox(

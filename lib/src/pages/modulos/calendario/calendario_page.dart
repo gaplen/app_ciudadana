@@ -96,9 +96,18 @@ class _CaledarioPageState extends State<CaledarioPage> {
         centerTitle: true,
         title: const Text('Mi Calendario'),
         backgroundColor: Colors.purple.shade200,
+        actions: [
+          IconButton(
+              onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => BitacoraScreen(),
+                    ),
+                  ),
+              icon: Icon(Icons.calendar_month)),
+        ],
       ),
       drawer: MyDrawer(),
-      // myDrawer(),
       body: ListView(
         children: [
           TableCalendar(
@@ -112,6 +121,7 @@ class _CaledarioPageState extends State<CaledarioPage> {
             focusedDay: _focusedDay,
             firstDay: _firstDay,
             lastDay: _lastDay,
+
             onPageChanged: (focusedDay) {
               setState(() {
                 _focusedDay = focusedDay;
@@ -179,7 +189,7 @@ class _CaledarioPageState extends State<CaledarioPage> {
                           await FirebaseFirestore.instance
                               .collection('usuarios')
                               .doc(_auth.currentUser!.uid)
-                              .collection('events')
+                              .collection('esscuelas')
                               .doc(event.id)
                               .delete();
                           _loadFirestoreEvents();

@@ -2,15 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'agendar_evento.dart';
-
 import 'package:intl/intl.dart';
 
-class AddEvent extends StatefulWidget {
+class BitacoraEvent extends StatefulWidget {
   final DateTime firstDate;
   final DateTime lastDate;
   final DateTime? selectedDate;
-  const AddEvent({
+  const BitacoraEvent({
     Key? key,
     required this.firstDate,
     required this.lastDate,
@@ -18,10 +16,10 @@ class AddEvent extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AddEvent> createState() => _AddEventState();
+  State<BitacoraEvent> createState() => _BitacoraEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _BitacoraEventState extends State<BitacoraEvent> {
   final _auth = FirebaseAuth.instance;
   // late DateTime _selectedDate;
   final _titleController = TextEditingController();
@@ -243,16 +241,16 @@ class _AddEventState extends State<AddEvent> {
       return;
     }
 
-    await FirebaseFirestore.instance
-        .collection('usuarios')
-        .doc(currentUser!.uid)
-        .collection('escuelas')
-        .add({
-      "title": title,
-      "description": description,
-      'time': Timestamp.fromDate(_selectedTime).toDate(),
-      "date": dateFormat.parse(dateFormat.format(_selectedDate)),
-    });
+    // await FirebaseFirestore.instance
+    //     .collection('usuarios')
+    //     .doc(currentUser!.uid)
+    //     .collection('escuelas')
+    //     .add({
+    //   "title": title,
+    //   "description": description,
+    //   'time': Timestamp.fromDate(_selectedTime).toDate(),
+    //   "date": dateFormat.parse(dateFormat.format(_selectedDate)),
+    // });
 
     if (mounted) {
       Navigator.pop<bool>(context, true);

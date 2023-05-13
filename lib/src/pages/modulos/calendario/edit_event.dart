@@ -22,6 +22,9 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
 
   final DateFormat dateFormat = DateFormat('dd/MM/yyyy');
   DateTime _selectedDate = DateTime.now();
+
+  DateTime _selectedTime = DateTime.now();
+  final DateFormat timeFormat = DateFormat('HH:mm');
   DateTime day = DateTime.now();
 
   @override
@@ -61,11 +64,11 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
               children: [
                 Center(
                   child: Container(
-                    width: MediaQuery.of(context).size.height * 0.22,
+                    width: MediaQuery.of(context).size.height * 0.25,
                     // height: 20,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.grey,
+                        // color: Colors.red,
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(5),
@@ -74,21 +77,82 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
                       onTap: () {
                         _selectDate(context);
                       },
-                      child: Row(
+                      child: Column(
                         children: [
-                          const Icon(Icons.date_range),
-                          const SizedBox(width: 10),
-                          Text(
-                            // 'fecha $_selectedDate',
-
-                            'Fecha: ${dateFormat.format(_selectedDate)}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 17,
-                            ),
+                          Row(
+                            children: [
+                              const Icon(Icons.date_range),
+                              const SizedBox(width: 10),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                // color: Colors.red,
+                                width:
+                                    MediaQuery.of(context).size.height * 0.20,
+                                child: Text(
+                                  'Fecha: ${dateFormat.format(_selectedDate)}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _selectTime(context);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 5,
+                                  horizontal: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.access_time,
+                                      color: Colors.purple.shade200,
+                                    ),
+                                    SizedBox(width: 5),
+                                    Text(
+                                      'Hora: ${timeFormat.format(_selectedTime)}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -138,8 +202,10 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
                             .update(
                           {
                             // 'puesto': _puestoController.text,
+
                             'date': Timestamp.fromDate(_selectedDate),
                             'title': titleController.text,
+                            'hora': timeFormat.format(_selectedTime),
                             'description': descriptionController.text,
                           },
                         );
@@ -160,6 +226,24 @@ class _BitacoraEditPageState extends State<BitacoraEditPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_selectedTime),
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedTime = DateTime(
+          _selectedDate.year,
+          _selectedDate.month,
+          _selectedDate.day,
+          picked.hour,
+          picked.minute,
+        );
+      });
+    }
   }
 
   Future<void> _selectDate(BuildContext context) async {

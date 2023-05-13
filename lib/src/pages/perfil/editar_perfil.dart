@@ -139,17 +139,108 @@ class _EditProfilePerfilState extends State<EditProfilePerfil> {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      _showChangePasswordDialog();
+                    },
+                    child: const Text('Cambiar contraseña'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _updateUserInfo();
                       }
                     },
-                    child: const Text('Actualizar'),
+                    child: const Text('Guardar Cambios'),
                   ),
                 ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> _showChangePasswordDialog() async {
+    final currentUser = _auth.currentUser;
+
+    if (currentUser == null ||
+        !currentUser.providerData.any((provider) =>
+            provider.providerId == EmailAuthProvider.PROVIDER_ID)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              'El usuario no se creó con correo electrónico y contraseña.'),
+        ),
+      );
+      return;
+    }
+
+    String? currentPassword;
+    String? newPassword;
+
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cambiar contraseña'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Contraseña actual',
+              ),
+              onChanged: (value) {
+                currentPassword = value;
+              },
+            ),
+            TextFormField(
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Nueva contraseña',
+              ),
+              onChanged: (value) {
+                newPassword = value;
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () async {
+              if (currentPassword != null && newPassword != null) {
+                try {
+                  final user = _auth.currentUser!;
+                  final credential = EmailAuthProvider.credential(
+                    email: user.email!,
+                    password: currentPassword!,
+                  );
+                  await user.reauthenticateWithCredential(credential);
+                  await user.updatePassword(newPassword!);
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Contraseña actualizada'),
+                    ),
+                  );
+                } catch (error) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error al cambiar la contraseña: $error'),
+                    ),
+                  );
+                }
+              }
+            },
+            child: const Text('Cambiar'),
+          ),
+        ],
       ),
     );
   }

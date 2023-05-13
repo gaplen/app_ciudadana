@@ -3,6 +3,7 @@ import 'package:app_ciudadana/src/pages/login/login_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/bitacora_page.dart';
 import 'package:app_ciudadana/src/pages/perfil/catalagos_page.dart';
 import 'package:app_ciudadana/src/pages/perfil/config_page.dart';
+import 'package:app_ciudadana/src/pages/perfil/page_bitacora.dart';
 import 'package:app_ciudadana/src/pages/perfil/perfil_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -113,7 +114,7 @@ class _MyDrawerState extends State<MyDrawer> {
               // Acción cuando se selecciona "Bitácora"
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const BitacoraScreen(),
+                  builder: (_) => const PageBitacora(),
                 ),
               );
             },
