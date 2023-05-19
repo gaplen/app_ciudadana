@@ -1,10 +1,13 @@
 import 'package:app_ciudadana/src/pages/modulos/calendario/bitacora_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/calendario_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/especiales_page.dart';
+import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/modulos_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/ver_page.dart';
 import 'package:flutter/material.dart';
 
 class OpcionesEscuela extends StatefulWidget {
+  String idEscuela;
+  OpcionesEscuela({super.key, required this.idEscuela});
   @override
   _OpcionesEscuelaState createState() => _OpcionesEscuelaState();
 }
@@ -16,6 +19,20 @@ class _OpcionesEscuelaState extends State<OpcionesEscuela> {
       appBar: AppBar(
         title: Text("Editar Escuela"),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navegar a la pantalla de "Editar"
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => ModulosScreen(
+                idEscuela: widget.idEscuela,
+                // data: data,
+              ),
+            ),
+          );
+        },
+        child: Icon(Icons.edit),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -23,14 +40,14 @@ class _OpcionesEscuelaState extends State<OpcionesEscuela> {
             ElevatedButton(
               onPressed: () {
                 // Navegar a la pantalla de "Ver"
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => VerEscuelasPage(
-                        // data: data,
-                        // escuelaId: data.id,
-                        ),
-                  ),
-                );
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (_) => VerEscuelasPage(
+                //         // data: data,
+                //         // escuelaId: data.id,
+                //         ),
+                //   ),
+                // );
               },
               child: Text("Ver"),
             ),
@@ -40,9 +57,10 @@ class _OpcionesEscuelaState extends State<OpcionesEscuela> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) => BitacoraScreen(
-                        // data: data,
-                        // escuelaId: data.id,
-                        ),
+                      idEscuela: '',
+                      // data: data,
+                      // escuelaId: data.id,
+                    ),
                   ),
                 );
               },
@@ -67,10 +85,11 @@ class _OpcionesEscuelaState extends State<OpcionesEscuela> {
                 // Navegar a la pantalla de "Agendar"
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => CaledarioPage(
-                        // data: data,
-                        // escuelaId: data.id,
-                        ),
+                    builder: (_) => CalendarioPage(
+                      idEscuela: '',
+                      // data: data,
+                      // escuelaId: data.id,
+                    ),
                   ),
                 );
               },

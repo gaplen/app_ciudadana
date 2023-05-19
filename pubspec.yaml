@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   cloud_firestore: ^4.4.4
   shared_preferences: ^2.0.8
+  rxdart: ^0.27.7
   firebase_auth: ^4.2.9
   firebase_core: ^2.8.0
   sqflite: ^2.0.0+3
@@ -44,6 +45,7 @@ dependencies:
   table_calendar: ^3.0.0
   google_sign_in: ^6.1.0
   signature: ^5.3.2
+  provider:
   flutter_facebook_auth: ^4.0.0
   image_gallery_saver: '^1.7.1'
   syncfusion_flutter_signaturepad:
@@ -52,8 +54,9 @@ dependencies:
   connectivity: ^3.0.6
   fluttertoast:
   font_awesome_flutter:
-  # flutter_local_notifications: ^6.0.0
-  timezone: ^0.7.0
+  # flutter_local_notifications:
+  flutter_local_notifications: ^9.7.0
+  timezone: ^0.8.0
   # syncfusion_flutter_calendar: ^21.1.35
   syncfusion_flutter_calendar: ^19.1.59
 dev_dependencies:

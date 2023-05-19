@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
+  // NotificationService().initNotification();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseFirestore.instance.settings = const Settings(

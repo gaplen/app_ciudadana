@@ -93,6 +93,7 @@ class _EscuelasPageState extends State<VerEscuelasPage> {
                 builder: (_) => AddEvent(
                       firstDate: _selectedDate,
                       lastDate: _selectedDate,
+                      idEscuela: '',
                     )),
           );
         },

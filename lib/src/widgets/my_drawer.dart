@@ -1,6 +1,7 @@
 import 'package:app_ciudadana/src/home_page.dart';
 import 'package:app_ciudadana/src/pages/login/login_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/bitacora_page.dart';
+import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/ver_page.dart';
 import 'package:app_ciudadana/src/pages/perfil/catalagos_page.dart';
 import 'package:app_ciudadana/src/pages/perfil/config_page.dart';
 import 'package:app_ciudadana/src/pages/perfil/page_bitacora.dart';
@@ -90,42 +91,50 @@ class _MyDrawerState extends State<MyDrawer> {
               );
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.apps),
-            title: const Text('Catálogo'),
-            onTap: () {
-              // Acción a realizar cuando se presiona la opción "Catálogo"
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => CatalogPage()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.visibility),
-            title: Text('Ver'),
-            onTap: () {
-              // Acción cuando se selecciona "Ver"
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.calendar_month),
-            title: Text('Bitácora'),
-            onTap: () {
-              // Acción cuando se selecciona "Bitácora"
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => const PageBitacora(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.label_important),
-            title: Text('Especiales'),
-            onTap: () {
-              // Acción cuando se selecciona "Especiales"
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.apps),
+          //   title: const Text('Catálogo'),
+          //   onTap: () {
+          //     // Acción a realizar cuando se presiona la opción "Catálogo"
+          //     Navigator.of(context).push(
+          //       MaterialPageRoute(builder: (_) => CatalogPage()),
+          //     );
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.visibility),
+          //   title: Text('Ver'),
+          //   onTap: () {
+          //     // Navigator.of(context).push(
+          //     //   MaterialPageRoute(
+          //     //       builder: (_) => VerEscuelasPage(
+          //     //             // firstDate: _selectedDate,
+          //     //             // lastDate: _selectedDate,
+          //     //             idEscuela: '',
+          //     //           )),
+          //     // );
+          //     // Acción cuando se selecciona "Ver"
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.calendar_month),
+          //   title: Text('Bitácora'),
+          //   onTap: () {
+          //     // Acción cuando se selecciona "Bitácora"
+          //     Navigator.of(context).push(
+          //       MaterialPageRoute(
+          //         builder: (_) => const PageBitacora(),
+          //       ),
+          //     );
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.label_important),
+          //   title: Text('Especiales'),
+          //   onTap: () {
+          //     // Acción cuando se selecciona "Especiales"
+          //   },
+          // ),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Configuración'),

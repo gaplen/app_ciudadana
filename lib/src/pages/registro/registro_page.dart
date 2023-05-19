@@ -54,7 +54,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      hintText: 'Correo electrónico',
+                      hintText: 'Nombre',
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
@@ -62,15 +62,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu correo electrónico';
+                        return 'Por favor, introduce tu nombre';
                       }
                       return null;
                     },
                     onChanged: (value) {
-                      email = value;
+                      name = value;
                     },
                   ),
                 ),
@@ -102,7 +101,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     decoration: InputDecoration(
-                      hintText: 'Nombre',
+                      hintText: 'Correo electrónico',
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
@@ -110,17 +109,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
+                    keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu nombre';
+                        return 'Por favor, introduce tu correo electrónico';
                       }
                       return null;
                     },
                     onChanged: (value) {
-                      name = value;
+                      email = value;
                     },
                   ),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(

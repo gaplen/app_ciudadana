@@ -1,19 +1,26 @@
+import 'package:app_ciudadana/src/pages/modulos/calendario/calendario_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/comite%20de%20bienestar/comite_bienestar_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/comite%20vigilancia/comite_vigilancia_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/ficha%20tecnica%20del%20inmueble/ficha_tecnica_del_inmueble.dart';
 import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/registro_escuelas.dart';
 import 'package:flutter/material.dart';
 
+import '../calendario/add_event.dart';
 import '../modulo comite ejecucion/comote_ejecucion_page.dart';
 
 class ModulosScreen extends StatefulWidget {
-  const ModulosScreen({super.key});
+  String idEscuela;
+  ModulosScreen({super.key, required this.idEscuela});
 
   @override
-  State<ModulosScreen> createState() => _ModulosScreenState();
+  State<ModulosScreen> createState() =>
+      _ModulosScreenState(idEscuela: idEscuela);
 }
 
 class _ModulosScreenState extends State<ModulosScreen> {
+  String idEscuela;
+  _ModulosScreenState({required this.idEscuela});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +48,14 @@ class _ModulosScreenState extends State<ModulosScreen> {
                           // Acción del botón
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => const RegistroEscuela(),
+                              builder: (_) => CalendarioPage(
+                                idEscuela: idEscuela,
+                              ),
                             ),
                           );
                         },
                         child: Text(
-                          'Registro de escuela',
+                          'Agendar evento',
                           textAlign: TextAlign.center,
                         ),
                         style: ButtonStyle(
@@ -65,7 +74,9 @@ class _ModulosScreenState extends State<ModulosScreen> {
                           // Acción del botón
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => const FichaTecnicaPage(),
+                              builder: (_) => FichaTecnicaPage(
+                                idEscuela: widget.idEscuela,
+                              ),
                             ),
                           );
                         },
@@ -95,7 +106,9 @@ class _ModulosScreenState extends State<ModulosScreen> {
                           // Acción del botón
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => const ComiteEjecucionPage(),
+                              builder: (_) => ComiteEjecucionPage(
+                                idEscuela: idEscuela,
+                              ),
                             ),
                           );
                         },
@@ -120,7 +133,9 @@ class _ModulosScreenState extends State<ModulosScreen> {
 
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => const ComiteVigilanciaPage(),
+                              builder: (_) => ComiteVigilanciaPage(
+                                idEscuela: idEscuela,
+                              ),
                             ),
                           );
                         },
@@ -146,7 +161,9 @@ class _ModulosScreenState extends State<ModulosScreen> {
                       // Acción del botón
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (_) => const ComiteBienestarPage(),
+                          builder: (_) => ComiteBienestarPage(
+                            idEscuela: idEscuela,
+                          ),
                         ),
                       );
                     },

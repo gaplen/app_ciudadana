@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_ciudadana/src/pages/login/login_page.dart';
+import 'package:app_ciudadana/src/pages/modulos/calendario/calendario_general.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/calendario_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/contactos/contactos_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/escuelas_page.dart';
@@ -116,7 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff59554e),
-        title: const Text('Inicio'),
+        title: const Text('Registro en campo'),
+        centerTitle: true,
         actions: [],
       ),
       drawer: const MyDrawer(),
@@ -144,45 +146,113 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Center(
-                      child: Container(
-                        height: 150,
-                        width: 150,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Implementar la funcionalidad del botón "Escuelas"
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (_) => const EscuelasScreen()),
-                            );
-                          },
-                          child: const Text('Escuelas'),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0xff59554e),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (_) => EscuelasScreen(
+                                    // idEscuela: '',
+                                    )),
+                          );
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.23,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 10.0,
+                                offset: Offset(0, 5),
+                              ),
+                            ],
+                            gradient: LinearGradient(
+                              colors: [
+                                Color.fromARGB(255, 151, 103, 26),
+                                Color.fromARGB(255, 2, 161, 116)
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: Image.asset(
+                                    'assets/colegio.png',
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Escuelas',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(width: 20),
                     Center(
-                      child: Container(
-                        height: 150,
-                        width: 150,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Implementar la funcionalidad del botón "Calendario"
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => CaledarioPage(),
-                              ),
-                            );
-                          },
-                          child: const Text('Calendario'),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0xff59554e),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => CalendarioGeneral(
+                                  // idEscuela: '',
+                                  ),
                             ),
+                          );
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.23,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 10.0,
+                                offset: Offset(0, 5),
+                              ),
+                            ],
+                            gradient: LinearGradient(
+                              colors: [
+                                Color.fromARGB(255, 151, 103, 26),
+                                Color.fromARGB(255, 2, 161, 116)
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: Image.asset(
+                                    'assets/calendario.png',
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Calendario',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -195,23 +265,55 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Center(
-                      child: Container(
-                        height: 150,
-                        width: 150,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Implementar la funcionalidad del botón "Contactos"
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const ContactosPage(),
-                              ),
-                            );
-                          },
-                          child: const Text('Contactos'),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0xff59554e),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const ContactosPage(),
                             ),
+                          );
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.23,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 10.0,
+                                offset: Offset(0, 5),
+                              ),
+                            ],
+                            gradient: LinearGradient(
+                              colors: [
+                                Color.fromARGB(255, 179, 119, 24),
+                                Color.fromARGB(255, 32, 165, 127)
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: Image.asset(
+                                    'assets/contactos.png',
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Contactos',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -219,18 +321,46 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(width: 20),
                     Center(
                       child: Container(
-                        height: 150,
-                        width: 150,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Implementar la funcionalidad del botón "Reportes"
-                          },
-                          child: const Text('Reportes'),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0xff59554e),
+                        height: MediaQuery.of(context).size.height * 0.23,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 10.0,
+                              offset: Offset(0, 5),
                             ),
+                          ],
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(255, 151, 103, 26),
+                              Color.fromARGB(255, 2, 161, 116)
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15.0),
+                                child: Image.asset(
+                                  'assets/reporte.png',
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'Reportes',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
                         ),
                       ),
                     ),

@@ -1,24 +1,23 @@
-import 'package:app_ciudadana/src/pages/modulos/calendario/add_bitacora.dart';
-import 'package:app_ciudadana/src/pages/modulos/calendario/editar_bitacora.dart';
+import 'package:app_ciudadana/src/pages/modulos/calendario/editar_evento_escuela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class BitacoraScreen extends StatefulWidget {
+class EventosEscuelaScreen extends StatefulWidget {
   final QueryDocumentSnapshot<Map<String, dynamic>>? data;
-  final String? idBitacora;
+  final String? idEvento;
   String idEscuela;
 
-  BitacoraScreen(
-      {super.key, this.data, this.idBitacora, required this.idEscuela});
+  EventosEscuelaScreen(
+      {super.key, this.data, this.idEvento, required this.idEscuela});
 
   @override
-  State<BitacoraScreen> createState() =>
-      _BitacoraScreenState(idEscuela: idEscuela);
+  State<EventosEscuelaScreen> createState() =>
+      _EventosEscuelaScreenState(idEscuela: idEscuela);
 }
 
-class _BitacoraScreenState extends State<BitacoraScreen> {
+class _EventosEscuelaScreenState extends State<EventosEscuelaScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _searchController = TextEditingController();
 
@@ -48,7 +47,7 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
   bool _showSearchBar = false;
 
   String idEscuela;
-  _BitacoraScreenState({required this.idEscuela});
+  _EventosEscuelaScreenState({required this.idEscuela});
 
   @override
   void dispose() {
@@ -77,7 +76,7 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
                     });
                   },
                 )
-              : const Center(child: Text("Bitacora")),
+              : const Center(child: Text('Eventos')),
         ),
 
         //Acción de busqueda
@@ -112,21 +111,6 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
           ),
         ],
       ),
-
-      //Boton que lleva al calendario
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-                builder: (_) => AddBitacora(
-                    firstDate: currentDate,
-                    lastDate: currentDate,
-                    idEscuela: idEscuela)),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
-
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _auth.currentUser != null
             ? FirebaseFirestore.instance
@@ -134,7 +118,7 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
                 .doc(_auth.currentUser!.uid)
                 .collection('escuelas')
                 .doc(idEscuela)
-                .collection('bitacora')
+                .collection('eventos')
                 .where('title', isGreaterThanOrEqualTo: _searchText)
                 .where('title', isLessThanOrEqualTo: '$_searchText\uf8ff')
                 .snapshots()
@@ -195,8 +179,8 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
                                           child: CircleAvatar(
                                             backgroundColor: Color(0xff59554e),
                                             radius: 35,
-                                            backgroundImage:
-                                                AssetImage('assets/evento.jpg'),
+                                            backgroundImage: AssetImage(
+                                                'assets/calendar.png'),
                                           ),
                                         ),
 
@@ -291,9 +275,9 @@ class _BitacoraScreenState extends State<BitacoraScreen> {
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                   builder: (_) =>
-                                                      BitacoraEditPage(
+                                                      EventoEditPage(
                                                     data: data,
-                                                    idBitacora: data.id,
+                                                    idEvento: data.id,
                                                     idEscuela: idEscuela,
                                                   ),
                                                 ),

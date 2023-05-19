@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:app_ciudadana/src/pages/modulos/escuelas_page.dart';
 import 'package:app_ciudadana/src/utils/internet_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,8 +11,6 @@ import 'package:signature/signature.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class RegistroEscuela extends StatefulWidget {
-  const RegistroEscuela({super.key});
-
   @override
   _RegistroEscuelaState createState() => _RegistroEscuelaState();
 }
@@ -37,6 +36,7 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
   String? municipio;
   String? codigoPostal;
   String? nombreContacto;
+  String? apellidoContacto;
   String? correoElectronico;
   String? telefono;
   String? date;
@@ -44,10 +44,6 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
   String? time;
   String? title;
   String? etiqueta;
-
-// final currentUser = _auth.currentUser!;
-// final userRef = _firestore.collection('users').doc(currentUser.uid);
-
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   final GlobalKey<SfSignaturePadState> _signaturePadKey =
@@ -300,10 +296,28 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                       const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: TextField(
                     onChanged: (value) {
-                      nombreContacto = value;
+                      nombreContacto = value.trim();
                     },
                     decoration: InputDecoration(
-                      hintText: 'Nombre y apellido',
+                      hintText: 'Nombre',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  child: TextField(
+                    onChanged: (value) {
+                      apellidoContacto = value.trim();
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Apellido',
                       fillColor: Colors.white,
                       filled: true,
                       enabledBorder: OutlineInputBorder(
@@ -361,21 +375,35 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: const Text(
-                    'Ingrese su firma',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                _signature(Colors.white),
-                const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
-                        final user = await _auth.currentUser;
-                        if (user != null) {
+                        final user = _auth.currentUser;
+                        final si = user;
+
+                        if (user != null && si != null) {
+                          Future.delayed(const Duration(seconds: 3), () {
+                            CircularProgressIndicator(
+                                backgroundColor: Colors.pink.shade800);
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text('Registro agregado correctamente'),
+                              ),
+                            );
+
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (_) => EscuelasScreen(
+                                      // idEscuela: '',
+                                      )),
+                            ); // Cerrar el formulario después de 10 segundos
+                          });
+
+                          final no = si.uid;
+
                           final data = {
                             'fecha': FieldValue.serverTimestamp(),
                             'ctt': ctt,
@@ -388,54 +416,69 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                             'municipio': municipio,
                             'codigoPostal': codigoPostal,
                             'nombreContacto': nombreContacto,
+                            'apellidoContacto': apellidoContacto,
                             'correoElectronico': correoElectronico,
                             'telefono': telefono,
-                            'date': date,
-                            'description': description,
-                            'time': time,
-                            'title': title,
-                            'etiqueta': etiqueta,
                           };
-                          await _firestore
+
+                          final datos = await _firestore
                               .collection('usuarios')
                               .doc(user.uid)
                               .collection('escuelas')
                               .add(data);
+
+                          print(datos.id);
+
                           final data2 = {
                             'nombreContacto': nombreContacto,
                             'correoElectronico': correoElectronico,
                             'telefono': telefono,
                           };
+
                           await _firestore
                               .collection('usuarios')
                               .doc(user.uid)
                               .collection('contactos')
                               .add(data2);
-                          Navigator.pop(context);
-                          // Navigator.of(context).pushReplacement(
-                          //   MaterialPageRoute(
-                          //       builder: (_) => const EscuelasScreen()),
-                          // );
+
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (_) => EscuelasScreen(
+                                    // idEscuela: '',
+                                    )),
+                          );
+
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content:
-                                  Text('Formulario agregado correctamente'),
+                              content: Text('Registro agregado correctamente'),
                             ),
                           );
-                          Navigator.pop(context);
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (_) => EscuelasScreen(
+                                    // idEscuela: '',
+                                    )),
+                          );
                         }
                       } catch (e) {
-                        Navigator.pop(context);
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (_) => EscuelasScreen(
+                                  // idEscuela: '',
+                                  )),
+                        );
                       }
                     } else {
                       return Utils.showTopSnackBar(context,
                           'Por favor, llena todos los campos', Colors.red);
                     }
                   },
-                  child: const Text('Agregar escuela'),
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xff59554e))),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink,
+                    elevation: 0,
+                    shadowColor: Colors.pink.shade800,
+                  ),
+                  child: const Text('Agregar registro'),
                 ),
                 const SizedBox(height: 30),
               ],

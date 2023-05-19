@@ -1,3 +1,5 @@
+import 'package:app_ciudadana/src/pages/modulos/calendario/bitacora_page.dart';
+import 'package:app_ciudadana/src/pages/modulos/calendario/calendario_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +40,9 @@ class _EditAllSchoolState extends State<EditAllSchool> {
   final TextEditingController _numeroController = TextEditingController();
   final TextEditingController _municipioController = TextEditingController();
   final TextEditingController _cpController = TextEditingController();
-  final TextEditingController _nombreandlastnameController =
+  final TextEditingController _nombreContactoController =
+      TextEditingController();
+  final TextEditingController _apellidoContatoController =
       TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _telefonoController = TextEditingController();
@@ -87,7 +91,10 @@ class _EditAllSchoolState extends State<EditAllSchool> {
         ? widget.data['codigoPostal']
         : 'No hay nombre';
 
-    _nombreandlastnameController.text = widget.data['nombreContacto'] != null
+    _nombreContactoController.text = widget.data['nombreContacto'] != null
+        ? widget.data['nombreContacto']
+        : 'No hay informacion';
+    _apellidoContatoController.text = widget.data['nombreContacto'] != null
         ? widget.data['nombreContacto']
         : 'No hay informacion';
     _emailController.text = widget.data['correoElectronico'] != null
@@ -117,6 +124,17 @@ class _EditAllSchoolState extends State<EditAllSchool> {
       appBar: AppBar(
         title: const Text("Editar Escuela"),
         backgroundColor: Color(0xff59554e),
+        actions: [
+          IconButton(
+              onPressed: () {
+                MaterialPageRoute(
+                  builder: (_) => CalendarioPage(
+                    idEscuela: '',
+                  ),
+                );
+              },
+              icon: Icon(Icons.calendar_month)),
+        ],
       ),
       body: Container(
         height: double.infinity,
@@ -260,9 +278,19 @@ class _EditAllSchoolState extends State<EditAllSchool> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextFormField(
-                    controller: _nombreandlastnameController,
+                    controller: _nombreContactoController,
                     decoration: const InputDecoration(
-                      labelText: "Nombre y apellido",
+                      labelText: "Nombre",
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: TextFormField(
+                    controller: _apellidoContatoController,
+                    decoration: const InputDecoration(
+                      labelText: "Nombre",
                     ),
                   ),
                 ),
@@ -310,7 +338,8 @@ class _EditAllSchoolState extends State<EditAllSchool> {
                             'numero': _numeroController.text,
                             'municipio': _municipioController.text,
                             'codigoPostal': _cpController.text,
-                            'nombreContacto': _nombreandlastnameController.text,
+                            'nombreContacto': _nombreContactoController.text,
+                            'apellidoContacto': _apellidoContatoController.text,
                             'correoElectronico': _emailController.text,
                             'telefono': _telefonoController.text,
                             'etiqueta': _selectedValue.toString(),

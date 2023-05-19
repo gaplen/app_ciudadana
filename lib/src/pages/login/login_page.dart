@@ -126,10 +126,18 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SafeArea(
-                  child: Container(
-                height: 150,
-              )),
+              SafeArea(child: Container()),
+              Container(
+                // color: Colors.red,
+                // height: 300,
+                // width: 200,
+                child: Image.asset(
+                  'assets/logo.png',
+                  fit: BoxFit.contain,
+                  height: 250,
+                  // width: 100,
+                ),
+              ),
               if (_savedEmail != null && _savedPassword != null)
                 const Padding(
                   padding: EdgeInsets.only(bottom: 20),
