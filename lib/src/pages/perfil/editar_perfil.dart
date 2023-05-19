@@ -79,6 +79,7 @@ class _EditProfilePerfilState extends State<EditProfilePerfil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xff59554e),
         title: const Text('Mi Perfil'),
       ),
       body: Center(
@@ -138,12 +139,22 @@ class _EditProfilePerfilState extends State<EditProfilePerfil> {
                     height: 10.0,
                   ),
                   ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        Color(0xff59554e),
+                      ),
+                    ),
                     onPressed: () {
                       _showChangePasswordDialog();
                     },
                     child: const Text('Cambiar contraseña'),
                   ),
                   ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        Color(0xff59554e),
+                      ),
+                    ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _updateUserInfo();

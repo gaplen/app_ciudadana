@@ -137,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SafeArea(child: Container()),
                 // Center(
                 //   child:
                 //       Text('Has internet connection: $_hasInternetConnection'),
@@ -156,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.23,
+                          // height: MediaQuery.of(context).size.height * 0.23,
                           width: MediaQuery.of(context).size.width * 0.4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
@@ -213,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.23,
+                          // height: MediaQuery.of(context).size.height * 0.23,
                           width: MediaQuery.of(context).size.width * 0.4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
@@ -274,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.23,
+                          // height: MediaQuery.of(context).size.height * 0.23,
                           width: MediaQuery.of(context).size.width * 0.4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
@@ -321,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(width: 20),
                     Center(
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.23,
+                        // height: MediaQuery.of(context).size.height * 0.23,
                         width: MediaQuery.of(context).size.width * 0.4,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),

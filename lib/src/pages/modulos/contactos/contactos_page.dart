@@ -29,6 +29,7 @@ class _ContactosPageState extends State<ContactosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Color(0xff59554e),
         title: AnimatedSwitcher(
           duration: Duration(milliseconds: 200),
@@ -47,7 +48,33 @@ class _ContactosPageState extends State<ContactosPage> {
                 )
               : Text("Contactos"),
         ),
-        actions: <Widget>[],
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 18.0),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: _showSearchBar
+                  ? IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        setState(() {
+                          _showSearchBar = false;
+                          _searchText = "";
+                          _searchController.clear();
+                        });
+                      },
+                    )
+                  : IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        setState(() {
+                          _showSearchBar = true;
+                        });
+                      },
+                    ),
+            ),
+          ),
+        ],
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _auth.currentUser != null
@@ -129,7 +156,11 @@ class _ContactosPageState extends State<ContactosPage> {
                                             MediaQuery.of(context).size.width *
                                                 0.45,
                                         child: Text(
-                                          data['nombreContacto'].toString(),
+                                          data['nombreContacto'].toString() !=
+                                                  null
+                                              ? data['nombreContacto']
+                                                  .toString()
+                                              : 'Sin nombre',
                                           style: const TextStyle(
                                             overflow: TextOverflow.ellipsis,
                                             fontWeight: FontWeight.w700,
@@ -143,7 +174,12 @@ class _ContactosPageState extends State<ContactosPage> {
                                             MediaQuery.of(context).size.width *
                                                 0.45,
                                         child: Text(
-                                          data['correoElectronico'].toString(),
+                                          data['correoElectronico']
+                                                      .toString() !=
+                                                  null
+                                              ? data['correoElectronico']
+                                                  .toString()
+                                              : 'Sin correo',
                                           style: const TextStyle(
                                             overflow: TextOverflow.ellipsis,
                                             fontWeight: FontWeight.w700,
@@ -157,7 +193,9 @@ class _ContactosPageState extends State<ContactosPage> {
                                             MediaQuery.of(context).size.width *
                                                 0.45,
                                         child: Text(
-                                          data['telefono'].toString(),
+                                          data['telefono'].toString() != null
+                                              ? data['telefono'].toString()
+                                              : 'Sin teléfono',
                                           style: const TextStyle(
                                             overflow: TextOverflow.ellipsis,
                                             fontWeight: FontWeight.w700,

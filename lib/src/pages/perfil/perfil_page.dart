@@ -45,6 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff59554e),
         title: const Text('Mi Perfil'),
       ),
       body: Center(
@@ -98,6 +99,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               },
               child: const Text('Editar perfil'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Color(0xff59554e),
+                ),
+              ),
             ),
           ],
         ),

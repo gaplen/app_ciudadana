@@ -55,7 +55,7 @@ class _AddEventGeneralState extends State<AddEventGeneral> {
               Padding(
                 padding: const EdgeInsets.only(top: 18),
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.height * 0.20,
+                  width: MediaQuery.of(context).size.height * 0.25,
                   child: GestureDetector(
                     onTap: () {
                       _selectTime(context);
@@ -116,14 +116,14 @@ class _AddEventGeneralState extends State<AddEventGeneral> {
               const SizedBox(height: 20),
 
               //Titulo del evento
-              TextField(
-                controller: _nescuelaController,
-                maxLines: 1,
-                decoration: InputDecoration(
-                  labelText: 'Escuela',
-                  hintText: 'Ingresa el nombre de la escuela',
-                ),
-              ),
+              // TextField(
+              //   controller: _nescuelaController,
+              //   maxLines: 1,
+              //   decoration: InputDecoration(
+              //     labelText: 'Escuela',
+              //     hintText: 'Ingresa el nombre de la escuela',
+              //   ),
+              // ),
 
               const SizedBox(height: 20),
 

@@ -129,8 +129,8 @@ class _LoginScreenState extends State<LoginScreen> {
               SafeArea(child: Container()),
               Container(
                 // color: Colors.red,
-                // height: 300,
-                // width: 200,
+                height: MediaQuery.of(context).size.height * 0.28,
+                width: MediaQuery.of(context).size.width * 0.2,
                 child: Image.asset(
                   'assets/logo.png',
                   fit: BoxFit.contain,

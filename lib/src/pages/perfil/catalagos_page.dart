@@ -40,7 +40,9 @@ class _CatalogPageState extends State<CatalogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff59554e),
         title: const Text('Catálogo'),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context).push(

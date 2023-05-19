@@ -104,10 +104,12 @@ class _CalendarioPageState extends State<CalendarioPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff59554e),
         centerTitle: true,
         title: const Text('Mi Calendario'),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff59554e),
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(

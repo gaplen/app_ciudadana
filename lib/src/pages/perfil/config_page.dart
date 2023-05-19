@@ -16,6 +16,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff59554e),
         title: const Text('Configuración'),
       ),
       body: Column(

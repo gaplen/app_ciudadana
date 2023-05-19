@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:app_ciudadana/src/pages/perfil/catalagos_page.dart';
 import 'package:app_ciudadana/src/utils/internet_alert.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -77,19 +78,6 @@ class _AddEtiquetaState extends State<AddEtiqueta> {
                       try {
                         final user = await _auth.currentUser;
                         if (user != null) {
-                          Future.delayed(Duration(seconds: 5), () {
-                            CircularProgressIndicator(
-                              backgroundColor: Colors.white,
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content:
-                                    Text('Formulario agregado correctamente'),
-                              ),
-                            );
-                            Navigator.pop(
-                                context); // Cerrar el formulario después de 10 segundos
-                          });
                           final data = {
                             'fecha': FieldValue.serverTimestamp(),
                             'nombre': nombre,
@@ -100,8 +88,12 @@ class _AddEtiquetaState extends State<AddEtiqueta> {
                               .doc(user.uid)
                               .collection('etiquetas')
                               .add(data);
-
-                          Navigator.pop(context);
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (_) => CatalogPage(
+                                    // idEscuela: '',
+                                    )),
+                          );
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -109,7 +101,7 @@ class _AddEtiquetaState extends State<AddEtiqueta> {
                                   Text('Formulario agregado correctamente'),
                             ),
                           );
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
                         }
                       } catch (e) {
                         Navigator.pop(context);

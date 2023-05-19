@@ -32,6 +32,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xff59554e),
           title: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             child: _showSearchBar
@@ -80,6 +81,7 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
 
         //Boton de Registro
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xff59554e),
           child: const Icon(Icons.add),
           onPressed: () {
             Navigator.of(context).push(
@@ -147,7 +149,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['cuadrante']}',
+                                                text:
+                                                    '${data['cuadrante'] != null ? data['cuadrante'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -165,7 +168,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['plantel']}',
+                                                text:
+                                                    '${data['plantel'] != null ? data['plantel'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -183,7 +187,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['escuela']}',
+                                                text:
+                                                    '${data['escuela'] != null ? data['escuela'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -201,7 +206,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['turno']}',
+                                                text:
+                                                    '${data['turno'] != null ? data['turno'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -224,7 +230,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['ctt']}',
+                                                text:
+                                                    '${data['ctt'] != null ? data['ctt'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -242,7 +249,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['matricula']}',
+                                                text:
+                                                    '${data['matricula'] != null ? data['matricula'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -260,7 +268,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['director']}',
+                                                text:
+                                                    '${data['director'] != null ? data['director'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -278,7 +287,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['telefono']}',
+                                                text:
+                                                    '${data['telefono'] != null ? data['telefono'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -310,7 +320,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['escuelaA']}',
+                                                text:
+                                                    '${data['escuelaA'] != null ? data['escuelaA'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -328,7 +339,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['escuelaB']}',
+                                                text:
+                                                    '${data['escuelaB'] != null ? data['escuelaB'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -346,7 +358,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['escuelaC']}',
+                                                text:
+                                                    '${data['escuelaC'] != null ? data['escuelaC'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -364,7 +377,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['escuelaD']}',
+                                                text:
+                                                    '${data['escuelaD'] != null ? data['escuelaD'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -382,7 +396,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['escuelaE']}',
+                                                text:
+                                                    '${data['escuelaE'] != null ? data['escuelaE'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -423,7 +438,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['bienestarA']}',
+                                                text:
+                                                    '${data['bienestarA'] != null ? data['bienestarA'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -441,7 +457,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['bienestarB']}',
+                                                text:
+                                                    '${data['bienestarB'] != null ? data['bienestarB'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -459,7 +476,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['bienestarC']}',
+                                                text:
+                                                    '${data['bienestarC'] != null ? data['bienestarC'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -477,7 +495,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['bienestarD']}',
+                                                text:
+                                                    '${data['bienestarD'] != null ? data['bienestarD'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -495,7 +514,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['bienestarE']}',
+                                                text:
+                                                    '${data['bienestarE'] != null ? data['bienestarE'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:
@@ -513,7 +533,8 @@ class _FichaTecnicaPageState extends State<FichaTecnicaPage> {
                                                 color: Colors.black),
                                             children: [
                                               TextSpan(
-                                                text: '${data['promedio']}',
+                                                text:
+                                                    '${data['promedio'] != null ? data['promedio'] : 'Sin datos'}',
                                                 style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight:

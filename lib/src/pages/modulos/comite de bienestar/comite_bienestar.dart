@@ -638,9 +638,18 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Color(0xff59554e),
         title: const Text('Registro comite bienestar'),
       ),
       body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xffa1c1be), Color(0xff9ec4bb), Color(0xffeed7c5)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Form(
@@ -663,8 +672,13 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     autocorrect: false,
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Puesto',
-                      hintText: 'Ingrese el puesto',
+                      hintText: 'Puesto',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     onChanged: (value) {
                       puesto = value;
@@ -672,7 +686,7 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
 
                 //Registro del nombre
                 Padding(
@@ -682,8 +696,13 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     autocorrect: false,
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Nombre',
-                      hintText: 'Ingresa tu(s) nombre',
+                      hintText: 'Nombre',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -707,15 +726,14 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     autocorrect: false,
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Apellido Paterno',
-                      hintText: 'Ingresa tu apellido paterno',
+                      hintText: 'Apellido paterno',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu apellido paterno';
-                      }
-                      return null;
-                    },
 
                     onChanged: (value) {
                       aPaterno = value;
@@ -723,7 +741,7 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
 
                 //Registro de apellido materno
                 Padding(
@@ -733,15 +751,14 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     autocorrect: false,
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Apellido Materno',
-                      hintText: 'Ingresa tu apellido materno',
+                      hintText: 'Apellido materno',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, introduce tu apellido materno';
-                      }
-                      return null;
-                    },
 
                     onChanged: (value) {
                       aMaterno = value;
@@ -759,10 +776,14 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     keyboardType: TextInputType.phone,
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Teléfono',
-                      hintText: 'Ingresa el número de teléfono',
+                      hintText: 'Telefono',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
-                    validator: (value) {},
                     onChanged: (value) {
                       telefono = value;
                     },
@@ -779,8 +800,13 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     autocorrect: false,
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'CURP',
-                      hintText: 'Ingresa la CURP',
+                      hintText: 'Curp',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     onChanged: (value) {
                       curp = value;
@@ -804,8 +830,13 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     autocorrect: false,
                     //diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Calle',
-                      hintText: 'Ingresa el nombre de la calle',
+                      hintText: 'Calle',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     onChanged: (value) {
                       calle = value;
@@ -821,8 +852,13 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                   child: TextFormField(
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Número',
-                      hintText: 'Ingresa el número del domicilio',
+                      hintText: 'Numero',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     onChanged: (value) {
                       numero = value;
@@ -838,8 +874,13 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                   child: TextFormField(
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Colonia',
-                      hintText: 'Ingresa el nombre de la colonia',
+                      hintText: 'Colonia',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     onChanged: (value) {
                       colonia = value;
@@ -857,8 +898,13 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     keyboardType: TextInputType.number,
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Código Postal',
-                      hintText: 'Ingresa el código postal',
+                      hintText: 'Codigo postal',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     onChanged: (value) {
                       codigoPostal = value;
@@ -876,8 +922,13 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
                     autocorrect: false,
                     //Diseño del input
                     decoration: InputDecoration(
-                      labelText: 'Municipio',
-                      hintText: 'Ingresa el nombre del municipio',
+                      hintText: 'Municipio o alcaldia',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                     keyboardType: TextInputType.text,
                     onChanged: (value) {
@@ -899,27 +950,15 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
 
                 const SizedBox(height: 40),
 
+                const SizedBox(height: 40),
+
                 //Boton para agregar usuario
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      Future.delayed(const Duration(seconds: 5), () {
-                        const CircularProgressIndicator(
-                            backgroundColor: Colors.pink);
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content:
-                                  Text('Formulario agregado correctamente')),
-                        );
-
-                        Navigator.pop(
-                            context); // Cerrar el formulario después de 10 segundos
-                      });
-
                       try {
                         final user = _auth.currentUser;
-                        final escuela = _auth.currentUser!.tenantId;
+                        // final escuela = _auth.currentUser!.tenantId;
 
                         if (user != null) {
                           final data = {
@@ -946,8 +985,8 @@ class _RegistroComiteBienestarState extends State<RegistroComiteBienestar> {
 
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                                builder: (_) =>
-                                    ComiteBienestarPage(idEscuela: '')),
+                                builder: (_) => ComiteBienestarPage(
+                                    idEscuela: widget.idEscuela)),
                           );
 
                           ScaffoldMessenger.of(context).showSnackBar(

@@ -31,6 +31,7 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xff59554e),
           title: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
             child: _showSearchBar
@@ -81,6 +82,7 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
 
         //Botón para registrar escuela
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xff59554e),
           child: const Icon(Icons.add),
           onPressed: () {
             Navigator.of(context).push(
@@ -330,59 +332,61 @@ class _EscuelasScreenState extends State<EscuelasScreen> {
                                               ),
 
                                               //Boton para editar datos
-                                              Column(
-                                                children: [
-                                                  //Boton al menú de opciones
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 50.0),
-                                                    child: IconButton(
-                                                      onPressed: () {
-                                                        String idSchool =
-                                                            data.id;
+                                              Expanded(
+                                                child: Column(
+                                                  children: [
+                                                    //Boton al menú de opciones
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 0.0),
+                                                      child: IconButton(
+                                                        onPressed: () {
+                                                          String idSchool =
+                                                              data.id;
 
-                                                        Navigator.of(context)
-                                                            .push(
-                                                          MaterialPageRoute(
-                                                            builder: (_) =>
-                                                                ModulosScreen(
-                                                              idEscuela:
-                                                                  idSchool,
+                                                          Navigator.of(context)
+                                                              .push(
+                                                            MaterialPageRoute(
+                                                              builder: (_) =>
+                                                                  ModulosScreen(
+                                                                idEscuela:
+                                                                    idSchool,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        );
-                                                        print(data.id);
-                                                      },
-                                                      icon: const Icon(
-                                                          Icons.event),
+                                                          );
+                                                          print(data.id);
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.event),
+                                                      ),
                                                     ),
-                                                  ),
 
-                                                  //Botón de editar datos
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 50.0),
-                                                    child: IconButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .push(
-                                                          MaterialPageRoute(
-                                                            builder: (_) =>
-                                                                EditEscuelaScreen(
-                                                              data: data,
-                                                              escuelaId:
-                                                                  data.id,
+                                                    //Botón de editar datos
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 0.0),
+                                                      child: IconButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .push(
+                                                            MaterialPageRoute(
+                                                              builder: (_) =>
+                                                                  EditEscuelaScreen(
+                                                                data: data,
+                                                                escuelaId:
+                                                                    data.id,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        );
-                                                      },
-                                                      icon: const Icon(
-                                                          Icons.edit),
+                                                          );
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.edit),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),

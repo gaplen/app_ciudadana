@@ -1,6 +1,7 @@
 import 'package:app_ciudadana/src/home_page.dart';
 import 'package:app_ciudadana/src/pages/login/login_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/calendario/bitacora_page.dart';
+import 'package:app_ciudadana/src/pages/modulos/escuelas_page.dart';
 import 'package:app_ciudadana/src/pages/modulos/modulos_escuela/ver_page.dart';
 import 'package:app_ciudadana/src/pages/perfil/catalagos_page.dart';
 import 'package:app_ciudadana/src/pages/perfil/config_page.dart';
@@ -101,21 +102,16 @@ class _MyDrawerState extends State<MyDrawer> {
           //     );
           //   },
           // ),
-          // ListTile(
-          //   leading: const Icon(Icons.visibility),
-          //   title: Text('Ver'),
-          //   onTap: () {
-          //     // Navigator.of(context).push(
-          //     //   MaterialPageRoute(
-          //     //       builder: (_) => VerEscuelasPage(
-          //     //             // firstDate: _selectedDate,
-          //     //             // lastDate: _selectedDate,
-          //     //             idEscuela: '',
-          //     //           )),
-          //     // );
-          //     // Acción cuando se selecciona "Ver"
-          //   },
-          // ),
+          ListTile(
+            leading: const Icon(Icons.visibility),
+            title: Text('Ver'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => VerEscuelasPage()),
+              );
+              // Acción cuando se selecciona "Ver"
+            },
+          ),
           // ListTile(
           //   leading: const Icon(Icons.calendar_month),
           //   title: Text('Bitácora'),

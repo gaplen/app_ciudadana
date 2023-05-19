@@ -383,25 +383,6 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                         final si = user;
 
                         if (user != null && si != null) {
-                          Future.delayed(const Duration(seconds: 3), () {
-                            CircularProgressIndicator(
-                                backgroundColor: Colors.pink.shade800);
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content:
-                                    Text('Registro agregado correctamente'),
-                              ),
-                            );
-
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (_) => EscuelasScreen(
-                                      // idEscuela: '',
-                                      )),
-                            ); // Cerrar el formulario después de 10 segundos
-                          });
-
                           final no = si.uid;
 
                           final data = {
@@ -419,6 +400,7 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                             'apellidoContacto': apellidoContacto,
                             'correoElectronico': correoElectronico,
                             'telefono': telefono,
+                            'etiqueta': etiqueta
                           };
 
                           final datos = await _firestore
@@ -452,12 +434,6 @@ class _RegistroEscuelaState extends State<RegistroEscuela> {
                             const SnackBar(
                               content: Text('Registro agregado correctamente'),
                             ),
-                          );
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                                builder: (_) => EscuelasScreen(
-                                    // idEscuela: '',
-                                    )),
                           );
                         }
                       } catch (e) {

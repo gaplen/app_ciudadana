@@ -88,6 +88,7 @@ class _CalendarioGeneralState extends State<CalendarioGeneral> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff59554e),
         centerTitle: true,
         title: const Text('Mi Calendario General'),
       ),
@@ -203,6 +204,7 @@ class _CalendarioGeneralState extends State<CalendarioGeneral> {
 
       //Boton para agregar evento
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff59554e),
         onPressed: () async {
           // _selectDate(context);
           final result = await Navigator.push<bool>(

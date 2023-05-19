@@ -298,7 +298,12 @@ class EditEscuelaScreen extends StatefulWidget {
 
 class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
   final _formKey = GlobalKey<FormState>();
-
+  List<String> niveles = [
+    'Preescolar',
+    'Primaria',
+    'Secundaria',
+    'Media Superior',
+  ];
   //Variables de edicion para cada apartado
   final TextEditingController _cttController = TextEditingController();
   final TextEditingController _nombreEscuelaController =
@@ -319,26 +324,12 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
 
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
+  String? _selectedValue;
 
   @override
   void initState() {
     super.initState();
-    //Obligatorio
-    // _nombreEscuelaController.text = widget.data['nombreEscuela'];
-
-    // //Opcionales
-    // _cttController.text = widget.data['ctt'] ?? '';
-    // _nivelController.text = widget.data['nivel'] ?? '';
-    // _turnoController.text = widget.data['turno'] ?? '';
-    // _calleController.text = widget.data['calle'] ?? '';
-    // _coloniaController.text = widget.data['colonia'] ?? '';
-    // _numeroController.text = widget.data['numero'] ?? '';
-    // _municipioController.text = widget.data['municipio'] ?? '';
-    // _cpController.text = widget.data['codigoPostal'] ?? '';
-    // _nombreContactoController.text = widget.data['nombreContacto'] ?? '';
-    // _emailController.text = widget.data['correoElectronico'] ?? '';
-    // _telefonoController.text = widget.data['telefono'] ?? '';
-
+    _selectedValue = widget.data['nivel'] ?? _selectedValue;
     _cttController.text =
         widget.data['ctt'] != null ? widget.data['ctt'] : 'No hay ctt';
 
@@ -378,10 +369,11 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
         : 'No hay informacion';
     _emailController.text = widget.data['correoElectronico'] != null
         ? widget.data['correoElectronico']
-        : 'No hay i';
+        : 'No hay informacion';
     // _nombreContactoController.text = widget.data['nombreContacto'];
-    _telefonoController.text =
-        widget.data['telefono'] != null ? widget.data['telefono'] : 'No hay i';
+    _telefonoController.text = widget.data['telefono'] != null
+        ? widget.data['telefono']
+        : 'No hay informacion';
   }
 
   @override
@@ -460,15 +452,37 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
 
                 const SizedBox(height: 20),
 
-                //Editar el nivel
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: TextFormField(
-                    controller: _nivelController,
-                    //Diseño del input
+                  padding:
+                      const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  child: DropdownButtonFormField<String>(
+                    validator: (value) {
+                      // if (value == null || value.isEmpty) {
+                      //   return 'Por favor, selecciona el nivel escolar';
+                      // }
+                      // return null;
+                    },
+                    value: _selectedValue,
+                    items: niveles.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        _selectedValue = value;
+                      });
+                    },
                     decoration: InputDecoration(
-                      labelText: 'Nivel',
-                      hintText: 'Ingresa el nuevo nivel',
+                      labelText: "selecciona el nivel escolar",
+                      hintText: 'Selecciona el nivel escolar',
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                     ),
                   ),
                 ),
@@ -639,7 +653,7 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
                           .update(
                         {
                           'nombreEscuela': _nombreEscuelaController.text,
-                          'nivel': _nivelController.text,
+                          'nivel': _selectedValue,
                           'telefono': _telefonoController.text,
                           'ctt': _cttController.text,
                           'turno': _turnoController.text,
@@ -661,6 +675,8 @@ class _EditEscuelaScreenState extends State<EditEscuelaScreen> {
                           .then((querySnapshot) {
                         querySnapshot.docs.forEach((doc) {
                           doc.reference.update({
+                            'nombreContacto': _nombreContactoController.text,
+                            'correoElectronico': _emailController.text,
                             'telefono': _telefonoController.text,
                           });
                         });

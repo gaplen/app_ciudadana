@@ -316,7 +316,8 @@ class _AddEventState extends State<AddEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Nuevo Evento General"),
+        centerTitle: true,
+        title: const Text("Nuevo Evento"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -326,7 +327,7 @@ class _AddEventState extends State<AddEvent> {
               Padding(
                 padding: const EdgeInsets.only(top: 18),
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.height * 0.20,
+                  width: MediaQuery.of(context).size.height * 0.25,
                   child: GestureDetector(
                     onTap: () {
                       _selectTime(context);
@@ -387,14 +388,14 @@ class _AddEventState extends State<AddEvent> {
               const SizedBox(height: 20),
 
               //Titulo del evento
-              TextField(
-                controller: _nescuelaController,
-                maxLines: 1,
-                decoration: InputDecoration(
-                  labelText: 'Escuela',
-                  hintText: 'Ingresa el nombre de la escuela',
-                ),
-              ),
+              // TextField(
+              //   controller: _nescuelaController,
+              //   maxLines: 1,
+              //   decoration: InputDecoration(
+              //     labelText: 'Escuela',
+              //     hintText: 'Ingresa el nombre de la escuela',
+              //   ),
+              // ),
 
               const SizedBox(height: 20),
 
@@ -441,20 +442,20 @@ class _AddEventState extends State<AddEvent> {
                     child: const Text("Guardar"),
                   ),
                   const SizedBox(width: 10),
-                  Container(width: 2, color: Colors.black, height: 50),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                      onPressed: () {
-                        // showNotificacion();
-                      },
+                  // Container(width: 2, color: Colors.black, height: 50),
+                  // const SizedBox(width: 10),
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       // showNotificacion();
+                  //     },
 
-                      //Estilo/Diseño de boton
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pink,
-                        elevation: 0,
-                        shadowColor: Colors.pink.shade900,
-                      ),
-                      child: const Text('Notificacion')),
+                  //     //Estilo/Diseño de boton
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Colors.pink,
+                  //       elevation: 0,
+                  //       shadowColor: Colors.pink.shade900,
+                  //     ),
+                  //     child: const Text('Notificacion')),
                 ],
               ),
 
